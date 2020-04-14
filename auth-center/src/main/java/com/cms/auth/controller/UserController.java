@@ -1,5 +1,7 @@
 package com.cms.auth.controller;
 
+import com.cms.common.common.ServerResponse;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +27,14 @@ public class UserController {
 
     @GetMapping("/getUser")
     @ResponseBody
-    public String getUser() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    public ServerResponse getUser() {
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (StringUtils.isBlank(user)) {
+            return ServerResponse.createFailureResponse("User not found");
+        } else {
+            return ServerResponse.createSuccessResponse(user);
+        }
     }
 
 }
