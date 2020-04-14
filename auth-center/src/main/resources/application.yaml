@@ -9,7 +9,6 @@ spring:
   resources:
     static-locations: classpath:/static
 
-
 server:
   port: 6001
   servlet:

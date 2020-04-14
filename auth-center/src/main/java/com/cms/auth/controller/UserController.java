@@ -17,7 +17,7 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("user/me")
+    @GetMapping("user/current")
     @ResponseBody
     public Principal user(Principal principal) {
         return principal;
