@@ -2,6 +2,7 @@ spring:
   application:
     name: api-gateway
 
+
 server:
   port: 4000
 
@@ -41,3 +42,4 @@ hystrix:
 ribbon:
   ReadTimeout: 5000
   ConnectTimeout: 5000
+

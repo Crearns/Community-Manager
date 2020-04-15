@@ -1,5 +1,6 @@
 package com.cms.auth.config;
 
+import com.cms.auth.common.PermitAllUrl;
 import com.cms.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +46,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticated()
 //                .and().csrf().disable().cors();
 
-        http.csrf().disable().cors();
+        http
+                .authorizeRequests()
+                .antMatchers(PermitAllUrl.permitAllUrl()).permitAll() // 放开权限的url
+                .anyRequest().authenticated().and()
+                .httpBasic().and().csrf().disable().cors();
     }
 
     @Bean
