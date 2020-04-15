@@ -10,7 +10,7 @@ function login(obj) {
         $.ajax({
             type : 'post',
             url : domainName + '/sys/login',
-            timeout : 5000, //超时时间设置，单位毫秒
+            timeout : 7000, //超时时间设置，单位毫秒
             data : {
                 username: username,
                 password: password
@@ -19,7 +19,7 @@ function login(obj) {
                 //将access_token和refresh_token写入本地
                 localStorage.setItem("access_token", data.access_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
-                location.href = 'index.html';
+                location.href = 'main.html';
             },
             error : function(xhr, textStatus, errorThrown) {
                 $(obj).attr("disabled", false);

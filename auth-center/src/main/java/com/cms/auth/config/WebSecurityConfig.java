@@ -1,6 +1,6 @@
 package com.cms.auth.config;
 
-import com.cms.auth.service.security.UserDetailsServiceImpl;
+import com.cms.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,22 +31,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/backgrounds/**", "/bootstrap/**"
-                , "/css/**", "/font-awesome/**", "/fonts/**", "/image/**"
-                , "/js/**");
+        super.configure(web);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
-                .loginPage("/login")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and().csrf().disable().cors();
+//        http.formLogin()
+//                .loginPage("/login")
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/login").permitAll()
+//                .anyRequest()
+//                .authenticated()
+//                .and().csrf().disable().cors();
+
+        http.csrf().disable().cors();
     }
 
     @Bean

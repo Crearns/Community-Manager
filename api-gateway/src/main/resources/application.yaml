@@ -23,4 +23,21 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
+    registerWithEureka: true
     fetch-registry: true
+
+auth-server:
+  ribbon:
+    listOfServers: http://127.0.0.1:6001
+
+hystrix:
+  command:
+    default:
+    execution:
+      isolation:
+      thread:
+        timeoutInMilliseconds: 5000
+
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000

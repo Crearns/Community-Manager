@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
         UserQuery query = new UserQuery();
         query.setUserId(userId);
         List<User> users = userDao.query(query);
-        System.out.println(users.get(0));
         return CollectionUtils.isEmpty(users) ? null : users.get(0);
     }
 

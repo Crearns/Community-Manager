@@ -14,11 +14,6 @@ import java.security.Principal;
  */
 @Controller
 public class UserController {
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
     @GetMapping("user/current")
     @ResponseBody
     public Principal user(Principal principal) {
