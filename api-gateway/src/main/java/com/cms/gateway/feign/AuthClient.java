@@ -16,6 +16,6 @@ public interface AuthClient {
     @PostMapping("uaa/oauth/token")
     Map<String, Object> postAccessToken(@RequestParam Map<String, String> parameters);
 
-    @DeleteMapping(path = "/uaa/accessToken")
+    @DeleteMapping(path = "/uaa/removeToken")
     void removeToken(@RequestParam("accessToken") String accessToken);
 }

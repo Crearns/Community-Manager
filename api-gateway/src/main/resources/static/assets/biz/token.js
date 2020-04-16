@@ -1,12 +1,12 @@
 function getUser() {
+    var userInfo;
     $.ajax({
         type:"get",
+        async : false,
         url:"/uaa/user/current",
         dataType:"json",
         success:function(res){
-            alert(res.code);
-            alert(res.msg);
-            alert(JSON.stringify(res.data))
+            userInfo = res.data
         }, error:function(xhr, textStatus, errorThrown) {
             var status = xhr.status; // http status
             var msg = xhr.responseText;
@@ -51,7 +51,9 @@ function getUser() {
                 }
             }
         }
-    })
+    });
+
+    return userInfo.principal
 }
 
 

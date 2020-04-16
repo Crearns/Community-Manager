@@ -31,10 +31,10 @@
               <li><a href="javascript:;">帮助</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+          <li class="dropdown"><a href="#" id="username" class="dropdown-toggle" data-toggle="dropdown"><i
                             class="icon-user"></i> 用户名 <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="javascript:;">Profile</a></li>
+              <li><a href="main.html">Profile</a></li>
               <li><a onclick="logout()">Logout</a></li>
             </ul>
           </li>
@@ -54,21 +54,19 @@
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li class="active"><a href="index.html"><i class="icon-dashboard"></i><span>主页</span> </a> </li>
-        <li><a href="reports.html"><i class="icon-list-alt"></i><span>我的社团</span> </a> </li>
-        <li><a href="guidely.html"><i class="icon-facetime-video"></i><span>社团广场</span> </a></li>
-        <li><a href="charts.html"><i class="icon-cog"></i><span>设置</span> </a> </li>
-        <li><a href="shortcodes.html"><i class="icon-code"></i><span>Shortcodes</span> </a> </li>
-        <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
+        <li class="active"><a href="index.html"><i class="icon-dashboard"></i><span id="test">主页</span> </a> </li>
+        <li><a href="reports.html"><i class="icon-group"></i><span>我的社团</span> </a> </li>
+        <li><a href="guidely.html"><i class="icon-search"></i><span>社团广场</span> </a></li>
+        <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>我的..</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="icons.html">Icons</a></li>
-            <li><a href="faq.html">FAQ</a></li>
-            <li><a href="pricing.html">Pricing Plans</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="signup.html">Signup</a></li>
-            <li><a href="error.html">404</a></li>
+            <li><a href="icons.html">我的工单</a></li>
+            <li><a href="faq.html">我的审批</a></li>
+            <li><a href="pricing.html">我的提交记录</a></li>
+            <li><a href="login.html">我的审批记录</a></li>
           </ul>
         </li>
+        <li><a href="charts.html"><i class="icon-cog"></i><span>个人设置</span> </a> </li>
+        <li><a href="shortcodes.html"><i class="icon-code"></i><span>关于</span> </a> </li>
       </ul>
     </div>
     <!-- /container --> 
@@ -84,21 +82,21 @@
           <!-- /widget -->
           <div class="widget widget-nopad">
             <div class="widget-header"> <i class="icon-list-alt"></i>
-              <h3> 我的信息</h3>
+              <h3> 我的个人信息</h3>
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
               <ul class="news-items">
                 <li>
-
-                  <div class="news-item-date"> <span class="news-item-day">29</span> <span class="news-item-month">Aug</span> </div>
-                  <div class="news-item-detail"> <a href="http://www.by EGrappler/thursday-roundup-40/" class="news-item-title" target="_blank">Thursday Roundup # 40</a>
-                    <p class="news-item-preview"> This is our web design and development news series where we share our favorite design/development related articles, resources, tutorials and awesome freebies. </p>
-                  </div>
-
+                    <h4>姓名: <span id="profile_realName"></span></h4><br>
+                    <h4>昵称: <span id="profile_nickname"></span></h4><br>
+                    <h4>用户名: <span id="profile_username"></span></h4><br>
+                    <h4>学校: 辽宁省大连市 大连海事大学</h4><br>
+                    <h4>所在班级: <span id="major_class"></span></h4><br>
+                    <h4>E mail: <span id="profile_mail"></span></h4><br>
+                    <h4>电话: <span id="profile_phone"></span></h4><br>
                 </li>
               </ul>
-
             </div>
             <!-- /widget-content -->
           </div>
@@ -112,8 +110,8 @@
         <div class="span7">
           <!-- /widget -->
           <div class="widget">
-            <div class="widget-header"> <i class="icon-signal"></i>
-              <h3> Area Chart Example</h3>
+            <div class="widget-header"> <i class="icon-group"></i>
+              <h3> 我的社团 </h3>
             </div>
             <!-- /widget-header -->
             <div class="widget-content">

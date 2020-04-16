@@ -54,6 +54,8 @@ public class TokenController {
                 accessToken = token.substring(OAuth2AccessToken.BEARER_TYPE.length() + 1);
             }
         }
+
+        System.out.println(accessToken);
         authClient.removeToken(accessToken);
     }
 }

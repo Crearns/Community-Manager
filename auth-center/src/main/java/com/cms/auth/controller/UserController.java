@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,9 @@ public class UserController {
     @Qualifier("consumerTokenServices")
     @Autowired
     private ConsumerTokenServices tokenServices;
+
+    @Autowired
+    private JwtTokenStore jwtTokenStore;
 
 
     @GetMapping("user/current")
@@ -42,10 +46,9 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "/accessToken", params = "accessToken")
+    @DeleteMapping(value = "/removeToken", params = {"accessToken"})
     @ResponseBody
     public void removeToken(String accessToken) {
-        System.out.println(accessToken);
-        boolean flag = tokenServices.revokeToken(accessToken);
+        tokenServices.revokeToken(accessToken);
     }
 }

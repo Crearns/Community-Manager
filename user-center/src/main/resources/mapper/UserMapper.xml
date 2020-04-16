@@ -8,12 +8,12 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="user_num" jdbcType="INTEGER" property="userNum" />
+    <result column="user_num" jdbcType="BIGINT" property="userNum" />
     <result column="phone" jdbcType="BIGINT" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, gmt_create, gmt_modified, user_id, password, real_name, user_num, phone, email
+    id, gmt_create, gmt_modified, user_id, password, real_name, user_num, phone, email, nickname, grade, classNum, college, major
   </sql>
   <sql id="tableName">
     tb_user
@@ -40,6 +40,21 @@
       </if>
       <if test="email != null">
         AND email = #{email}
+      </if>
+      <if test="nickname != null">
+        AND nickname = #{nickname}
+      </if>
+      <if test="classNum != null">
+        AND classNum = #{classNum}
+      </if>
+      <if test="grade != null">
+        AND grade = #{grade}
+      </if>
+      <if test="college != null">
+        AND college = #{college}
+      </if>
+      <if test="major != null">
+        AND major = #{major}
       </if>
     </where>
   </sql>

@@ -22,21 +22,27 @@ function login(obj) {
                 location.href = 'main.html';
             },
             error : function(xhr, textStatus, errorThrown) {
+                var status = xhr.status; // http status
                 $(obj).attr("disabled", false);
-                if(textStatus == 'timeout') {
+                if(textStatus === 'timeout') {
                     $("#info").html("登陆超时,请重试");
                     return;
                 }
                 var msg = xhr.responseText;
-                if(msg == undefined){
+                if(msg === undefined){
                     $("#info").html("请重试");
                 } else {
                     var response = JSON.parse(msg);
                     var message = response.error_description;
-                    if(message == undefined){
+                    var errStatus = response.message.substring(6,10);
+                    if (errStatus == 400) {
+                        $("#info").html("账号或密码错误");
+                        return
+                    }
+                    else if(message === undefined){
                         message = response.message;
                     }
-                    $("#info").html(message);
+                    $("#info").html("系统错误，请联系管理员");
                 }
             }
         });
