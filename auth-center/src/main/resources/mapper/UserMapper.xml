@@ -8,6 +8,7 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="gender" jdbcType="INTEGER" property="gender"/>
     <result column="user_num" jdbcType="BIGINT" property="userNum" />
     <result column="phone" jdbcType="BIGINT" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -18,7 +19,7 @@
     <result column="major" jdbcType="VARCHAR" property="major" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, gmt_create, gmt_modified, user_id, password, real_name, user_num, phone, email, nickname, grade, classNum, college, major
+    id, gmt_create, gmt_modified, user_id, password, real_name, gender, user_num, phone, email, nickname, grade, classNum, college, major
   </sql>
   <sql id="tableName">
     tb_user
@@ -36,6 +37,9 @@
       </if>
       <if test="realName != null">
         AND real_name = #{realName}
+      </if>
+      <if test="gender != null">
+        AND gender = #{gender}
       </if>
       <if test="userNum != null">
         AND user_num = #{userNum}

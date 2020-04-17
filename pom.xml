@@ -15,6 +15,7 @@
         <module>auth-center</module>
         <module>user-center</module>
         <module>common</module>
+        <module>community-center</module>
     </modules>
 
     <parent>

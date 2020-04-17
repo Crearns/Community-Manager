@@ -16,6 +16,7 @@ public class UserQuery {
     private String userId;
     private String password;
     private String realName;
+    private Byte gender;
     private Long userNum;
     private Long phone;
     private String email;

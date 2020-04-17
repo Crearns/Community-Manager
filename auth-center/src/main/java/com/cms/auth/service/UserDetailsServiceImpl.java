@@ -1,7 +1,6 @@
 package com.cms.auth.service;
 
 import com.cms.auth.dao.UserDao;
-import com.cms.auth.feign.UserClient;
 import com.cms.common.entity.User;
 import com.cms.common.query.UserQuery;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.cms.auth.service;
 
 import com.cms.auth.dao.UserDao;
-import com.cms.auth.feign.UserClient;
 import com.cms.common.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

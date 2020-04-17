@@ -2,9 +2,16 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <title>登录成功</title>
 </head>
 <body>
-
+您已登录成功，即将在4秒后跳转，您也可以点击<a href="http://localhost:4000/main.html">立即跳转</a>
 </body>
 </html>
+
+<script type="text/javascript">
+    function go() {
+        location.href="http://localhost:4000/main.html"
+    }
+    window.setTimeout(go, 3000)
+</script>
