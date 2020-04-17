@@ -4,14 +4,30 @@
   <resultMap id="BaseResultMap" type="com.cms.common.entity.Community">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modifed" jdbcType="TIMESTAMP" property="gmtModifed" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="catalog_id" jdbcType="TINYINT" property="catalogId" />
-    <result column="decription" jdbcType="VARCHAR" property="decription" />
+    <result column="history_num" jdbcType="INTEGER" property="historyNum" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
+
+  <resultMap id="SquareResultMap" type="com.cms.common.vo.community.CommunitySquareVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="catalog_name" jdbcType="VARCHAR" property="catalogName" />
+    <result column="history_num" jdbcType="INTEGER" property="historyNum" />
+    <result column="president" jdbcType="VARCHAR" property="president" />
+  </resultMap>
+
+
   <sql id="Base_Column_List">
-    id, gmt_create, gmt_modifed, `name`, catalog_id, decription
+    id, gmt_create, gmt_modified, `name`, catalog_id, history_num, description
   </sql>
+  <sql id="table_name">
+    tb_community
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -24,9 +40,9 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cms.common.entity.Community" useGeneratedKeys="true">
     insert into tb_community (gmt_create, gmt_modifed, `name`, 
-      catalog_id, decription)
-    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModifed,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
-      #{catalogId,jdbcType=TINYINT}, #{decription,jdbcType=VARCHAR})
+      catalog_id, description)
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
+      #{catalogId,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cms.common.entity.Community" useGeneratedKeys="true">
     insert into tb_community
@@ -34,7 +50,7 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModifed != null">
+      <if test="gmtModified != null">
         gmt_modifed,
       </if>
       <if test="name != null">
@@ -43,16 +59,16 @@
       <if test="catalogId != null">
         catalog_id,
       </if>
-      <if test="decription != null">
-        decription,
+      <if test="description != null">
+        description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModifed != null">
-        #{gmtModifed,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -60,8 +76,8 @@
       <if test="catalogId != null">
         #{catalogId,jdbcType=TINYINT},
       </if>
-      <if test="decription != null">
-        #{decription,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -71,8 +87,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModifed != null">
-        gmt_modifed = #{gmtModifed,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modifed = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
@@ -80,19 +96,31 @@
       <if test="catalogId != null">
         catalog_id = #{catalogId,jdbcType=TINYINT},
       </if>
-      <if test="decription != null">
-        decription = #{decription,jdbcType=VARCHAR},
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.cms.common.entity.Community">
     update tb_community
     set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modifed = #{gmtModifed,jdbcType=TIMESTAMP},
+      gmt_modifed = #{gmtModified,jdbcType=TIMESTAMP},
       `name` = #{name,jdbcType=VARCHAR},
       catalog_id = #{catalogId,jdbcType=TINYINT},
-      decription = #{decription,jdbcType=VARCHAR}
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getSquareList" resultType="com.cms.common.vo.community.CommunitySquareVo" resultMap="SquareResultMap">
+    SELECT ct.id, ct.name, cl.catalog_name, ct.gmt_create, u.real_name as 'president', ct.history_num
+    FROM tb_community ct, tb_user u, user_community uc, community_catalog cl
+    WHERE cl.id = ct.catalog_id AND uc.user_id = u.id AND uc.role_id = 1 AND uc.community_id = ct.id
+  </select>
+
+  <select id="count" resultType="integer">
+    SELECT count(*) FROM <include refid="table_name"></include>
+  </select>
+
 </mapper>

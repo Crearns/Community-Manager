@@ -22,6 +22,11 @@ zuul:
       url: http://127.0.0.1:6001
       stripPrefix: false
       sensitiveHeaders:
+    community_service:
+      path: /community/**
+      url: http://127.0.0.1:9001
+      stripPrefix: false
+      sensitiveHeaders:
 
 eureka:
   client:

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="utf-8">
+    <title>社团之家 - 我的社团</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">    
+    
+    <link href="assets/main/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/main/css/bootstrap-responsive.min.css" rel="stylesheet">
+    
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="assets/main/css/font-awesome.css" rel="stylesheet">
+    
+    <link href="assets/main/css/style.css" rel="stylesheet">
+    
+    
+    <link href="assets/main/js/guidely/guidely.css" rel="stylesheet"> 
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
+				class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span> </a><a class="brand" href="index.html">大连海事大学 社团之家 管理系统</a>
+			<div class="nav-collapse">
+				<ul class="nav pull-right">
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+							class="icon-cog"></i> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="javascript:;">设置</a></li>
+							<li><a href="javascript:;">帮助</a></li>
+						</ul>
+					</li>
+					<li class="dropdown"><a href="#" id="username" class="dropdown-toggle" data-toggle="dropdown"><i
+							class="icon-user"></i> 用户名 <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="main.html">Profile</a></li>
+							<li><a onclick="logout()">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-search pull-right">
+					<input type="text" class="search-query" placeholder="Search">
+				</form>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /navbar-inner -->
+</div>
+<div class="subnavbar">
+
+	<div class="subnavbar-inner">
+	
+		<div class="container">
+
+			<ul class="mainnav">
+				<li><a href="main.html"><i class="icon-dashboard"></i><span id="test">主页</span> </a> </li>
+				<li class="active"><a href="my_community.html"><i class="icon-group"></i><span>我的社团</span> </a> </li>
+				<li><a href="square.html"><i class="icon-search"></i><span>社团广场</span> </a></li>
+				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>我的..</span> <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="icons.html">我的工单</a></li>
+						<li><a href="faq.html">我的审批</a></li>
+						<li><a href="pricing.html">我的提交记录</a></li>
+						<li><a href="login.html">我的审批记录</a></li>
+					</ul>
+				</li>
+				<li><a href="setting.html"><i class="icon-cog"></i><span>个人设置</span> </a> </li>
+				<li><a href="about.html"><i class="icon-code"></i><span>关于</span> </a> </li>
+			</ul>
+
+		</div> <!-- /container -->
+	
+	</div> <!-- /subnavbar-inner -->
+
+</div> <!-- /subnavbar -->
+    
+    
+<div class="main">
+	<div class="main-inner">
+	    <div class="container">
+	      <div class="row">
+	      	<div class="span12">
+	      		<div id="target-1" class="widget">
+	      			<div class="widget-content">
+			      		<h1>12 Columns</h1>
+			      		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		      		</div> <!-- /widget-content -->
+	      		</div> <!-- /widget -->
+      		</div> <!-- /span12 -->
+	      </div> <!-- /row -->
+	    </div> <!-- /container -->
+	</div> <!-- /main-inner -->
+</div> <!-- /main -->
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/main/js/jquery-1.7.2.min.js"></script>
+
+<script src="assets/main/js/bootstrap.js"></script>
+<script src="assets/main/js/base.js"></script>
+<script src="assets/biz/common/const.js"></script>
+  </body>
+
+</html>

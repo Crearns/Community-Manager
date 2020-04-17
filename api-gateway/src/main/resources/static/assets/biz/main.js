@@ -1,9 +1,3 @@
-function logout(){
-    location.href="/logout"
-}
-
-
-
 function showUserInfo() {
     var userInfo = getUser();
     $("#username").text(userInfo.realName);
@@ -27,5 +21,4 @@ function showUserInfo() {
     $("#profile_nickname").text(userInfo.nickname);
     $("#major_class").text(userInfo.college + " " + userInfo.major + " " + userInfo.grade + "级" + userInfo.major + userInfo.classNum+"班" )
 }
-
 showUserInfo();
