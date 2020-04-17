@@ -24,14 +24,10 @@ public class UserController {
     @Autowired
     private ConsumerTokenServices tokenServices;
 
-    @Autowired
-    private JwtTokenStore jwtTokenStore;
-
-
-    @GetMapping("user/current")
+    @GetMapping("user/me")
     @ResponseBody
-    public ServerResponse<Principal> user(Principal principal) {
-        return ServerResponse.createSuccessResponse(principal);
+    public Principal user(Principal principal) {
+        return principal;
     }
 
     @GetMapping("/getUser")

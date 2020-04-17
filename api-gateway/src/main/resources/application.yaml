@@ -2,10 +2,13 @@ spring:
   application:
     name: api-gateway
 
-
 server:
   port: 4000
-
+  servlet:
+    context-path: /
+    session:
+      cookie:
+        name: UISESSION
 
 zuul:
   ignoredServices: '*'
@@ -27,19 +30,13 @@ eureka:
     registerWithEureka: true
     fetch-registry: true
 
-auth-server:
-  ribbon:
-    listOfServers: http://127.0.0.1:6001
-
-hystrix:
-  command:
-    default:
-    execution:
-      isolation:
-      thread:
-        timeoutInMilliseconds: 5000
-
-ribbon:
-  ReadTimeout: 5000
-  ConnectTimeout: 5000
+security:
+  oauth2:
+    client:
+      clientId: community
+      clientSecret: 12345
+      accessTokenUri: http://localhost:6001/uaa/oauth/token
+      userAuthorizationUri: http://localhost:6001/uaa/oauth/authorize
+    resource:
+      userInfoUri: http://localhost:6001/uaa/user/me
 

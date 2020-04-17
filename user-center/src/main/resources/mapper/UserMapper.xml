@@ -13,7 +13,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, gmt_create, gmt_modified, user_id, password, real_name, user_num, phone, email, nickname, grade, classNum, college, major
+    id, gmt_create, gmt_modified, user_id, password, real_name, user_num, phone, email, nickname, grade, classNum, college, major, session_id
   </sql>
   <sql id="tableName">
     tb_user
@@ -65,4 +65,10 @@
     FROM <include refid="tableName"></include>
     <include refid="querySQL"></include>
   </select>
+
+  <update id="updateUserSessionIdByUserId">
+    UPDATE <include refid="tableName"/>
+    SET session_id = #{sessionID}
+    WHERE id = #{id}
+  </update>
 </mapper>
