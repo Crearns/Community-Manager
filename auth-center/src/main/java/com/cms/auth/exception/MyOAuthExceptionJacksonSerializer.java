@@ -1,6 +1,7 @@
 package com.cms.auth.exception;
 
-import com.cms.auth.entity.CodeMessage;
+import com.cms.common.common.ResponseCode;
+import com.cms.common.common.ServerResponse;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -18,7 +19,7 @@ public class MyOAuthExceptionJacksonSerializer extends StdSerializer<MyOAuth2Exc
     public void serialize(MyOAuth2Exception value, JsonGenerator jgen, SerializerProvider serializerProvider) throws
                                                                                                                 IOException {
         jgen.writeStartObject();
-        jgen.writeObjectField("code", CodeMessage.LOGIN_FAILURE_CODE);
+        jgen.writeObjectField("code", ServerResponse.createFailureResponse(ResponseCode.LOGIN_FAILURE.getCode(), ResponseCode.LOGIN_FAILURE.getInfo()));
         jgen.writeStringField("msg", value.getMessage());
         if (value.getAdditionalInformation()!=null) {
             for (Map.Entry<String, String> entry : value.getAdditionalInformation().entrySet()) {

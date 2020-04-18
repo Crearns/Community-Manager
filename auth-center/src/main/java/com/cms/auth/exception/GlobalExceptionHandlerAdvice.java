@@ -1,6 +1,6 @@
 package com.cms.auth.exception;
 
-import com.cms.auth.entity.CodeMessage;
+import com.cms.common.common.ServerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
@@ -24,7 +24,7 @@ public class GlobalExceptionHandlerAdvice {
      * @return 错误信息
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public CodeMessage validationBodyException(MethodArgumentNotValidException exception){
+    public ServerResponse validationBodyException(MethodArgumentNotValidException exception){
 
         BindingResult result = exception.getBindingResult();
         if (result.hasErrors()) {
@@ -35,7 +35,7 @@ public class GlobalExceptionHandlerAdvice {
                              "},errorMessage{"+fieldError.getDefaultMessage()+"}");
             });
         }
-        return CodeMessage.ERROR;
+        return ServerResponse.createFailureResponse("System Exception");
     }
 
 }

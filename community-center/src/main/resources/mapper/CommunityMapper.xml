@@ -20,6 +20,17 @@
     <result column="president" jdbcType="VARCHAR" property="president" />
   </resultMap>
 
+  <resultMap id="DetailsMap" type="com.cms.common.vo.community.CommunityDetailsVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="catalog_name" jdbcType="VARCHAR" property="catalogName" />
+    <result column="history_num" jdbcType="INTEGER" property="historyNum" />
+    <result column="president" jdbcType="VARCHAR" property="president" />
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
+  </resultMap>
+
 
   <sql id="Base_Column_List">
     id, gmt_create, gmt_modified, `name`, catalog_id, history_num, description
@@ -114,13 +125,25 @@
   </update>
 
   <select id="getSquareList" resultType="com.cms.common.vo.community.CommunitySquareVo" resultMap="SquareResultMap">
-    SELECT ct.id, ct.name, cl.catalog_name, ct.gmt_create, u.real_name as 'president', ct.history_num
-    FROM tb_community ct, tb_user u, user_community uc, community_catalog cl
-    WHERE cl.id = ct.catalog_id AND uc.user_id = u.id AND uc.role_id = 1 AND uc.community_id = ct.id
+    SELECT ct.id, ct.name, catalog_name, ct.history_num, ct.gmt_create, tb_user.real_name as 'president'
+    FROM tb_community ct
+    LEFT JOIN community_catalog ON ct.catalog_id=community_catalog.id
+    LEFT JOIN user_community ON user_community.community_id=ct.id
+    LEFT JOIN tb_user ON user_community.user_id=tb_user.id AND user_community.community_id=ct.id AND user_community.role_id=1
   </select>
 
   <select id="count" resultType="integer">
     SELECT count(*) FROM <include refid="table_name"></include>
+  </select>
+
+  <select id="detailsInfo" parameterType="integer" resultType="com.cms.common.vo.community.CommunityDetailsVo" resultMap="DetailsMap">
+	SELECT ct.id, ct.name, cl.catalog_name, ct.history_num, ct.gmt_create, u.real_name as 'president', ct.description as 'description', ucc.member_count
+    FROM tb_community ct
+    LEFT JOIN community_catalog cl ON ct.catalog_id=cl.id
+    LEFT JOIN user_community uc ON uc.community_id=ct.id
+    LEFT JOIN tb_user u ON uc.user_id=u.id AND uc.community_id=ct.id AND uc.role_id=1
+    LEFT JOIN (select community_id, count(*) as member_count from user_community group by community_id) ucc on ucc.community_id=ct.id
+    WHERE ct.id = #{id}
   </select>
 
 </mapper>

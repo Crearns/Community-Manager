@@ -16,6 +16,7 @@
         <module>user-center</module>
         <module>common</module>
         <module>community-center</module>
+        <module>web-api</module>
     </modules>
 
     <parent>

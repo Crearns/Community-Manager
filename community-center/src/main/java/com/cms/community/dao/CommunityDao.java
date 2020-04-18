@@ -1,6 +1,7 @@
 package com.cms.community.dao;
 
 import com.cms.common.entity.Community;
+import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,6 @@ public interface CommunityDao {
     List<CommunitySquareVo> getSquareList();
 
     int count();
+
+    CommunityDetailsVo detailsInfo(Integer id);
 }

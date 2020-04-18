@@ -1,6 +1,7 @@
 package com.cms.gateway.exception;
 
-import com.cms.common.common.CodeMessage;
+import com.cms.common.common.ResponseCode;
+import com.cms.common.common.ServerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,7 @@ public class GlobalExceptionHandlerAdvice {
      * @return 错误信息
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public CodeMessage validationBodyException(MethodArgumentNotValidException exception){
+    public ServerResponse validationBodyException(MethodArgumentNotValidException exception){
 
         BindingResult result = exception.getBindingResult();
         if (result.hasErrors()) {
@@ -35,7 +36,7 @@ public class GlobalExceptionHandlerAdvice {
                              "},errorMessage{"+fieldError.getDefaultMessage()+"}");
             });
         }
-        return CodeMessage.ERROR;
+        return ServerResponse.createFailureResponse(ResponseCode.FAILURE);
     }
 
     /**
@@ -44,9 +45,9 @@ public class GlobalExceptionHandlerAdvice {
      * @return
      */
     @ExceptionHandler(BusinessException.class)
-    public CodeMessage validationBodyException(BusinessException exception){
+    public ServerResponse validationBodyException(BusinessException exception){
         System.out.println("exception.getMessage() = " + exception.getMessage());
-        return CodeMessage.ERROR(exception.getMessage());
+        return ServerResponse.createFailureResponse(exception.getMessage());
     }
     
 

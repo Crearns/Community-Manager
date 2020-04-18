@@ -50,7 +50,6 @@ function getUser() {
             }
         }
     });
-
     return userInfo.principal
 }
 

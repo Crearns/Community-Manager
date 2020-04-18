@@ -29,3 +29,7 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+logging:
+  level:
+    com.cms.auth.dao: debug

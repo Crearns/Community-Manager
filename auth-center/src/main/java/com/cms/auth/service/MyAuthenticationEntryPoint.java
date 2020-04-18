@@ -1,7 +1,8 @@
 package com.cms.auth.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cms.auth.entity.CodeMessage;
+import com.cms.common.common.ResponseCode;
+import com.cms.common.common.ServerResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // redirect to login page. Use https if forceHttps true
 
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSONObject.toJSONString(CodeMessage.NoLogin));// 返回 JSON 信息
+        response.getWriter().write(JSONObject.toJSONString(ServerResponse.createFailureResponse(ResponseCode.NO_LOGIN)));// 返回 JSON 信息
         response.flushBuffer();
     }
 }

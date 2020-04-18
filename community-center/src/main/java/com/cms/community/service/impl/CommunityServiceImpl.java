@@ -1,6 +1,7 @@
 package com.cms.community.service.impl;
 
 import com.cms.common.util.PageBean;
+import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.community.dao.CommunityDao;
 import com.cms.community.service.CommunityService;
@@ -29,5 +30,10 @@ public class CommunityServiceImpl implements CommunityService {
         PageBean<CommunitySquareVo> pageData = new PageBean<>(currentPage, pageSize, count);
         pageData.setItems(squareList);
         return pageData.getItems();
+    }
+
+    @Override
+    public CommunityDetailsVo searchDetailsInfo(int communityId) {
+        return communityDao.detailsInfo(communityId);
     }
 }
