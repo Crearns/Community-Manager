@@ -28,10 +28,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/user/me")
+		http.requestMatchers().antMatchers("/user/me", "user/userId")
 				.and()
 				.authorizeRequests()
-				.antMatchers("/user/me")
+				.antMatchers("/user/me", "user/userId")
 				.authenticated();
 		//需要的时候创建session，支持从session中获取认证信息，ResourceServerConfiguration中
 		//session创建策略是stateless不使用，这里其覆盖配置可创建session

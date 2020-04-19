@@ -3,6 +3,7 @@ package com.cms.community.service.impl;
 import com.cms.common.util.PageBean;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
+import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.community.dao.CommunityDao;
 import com.cms.community.service.CommunityService;
 import com.github.pagehelper.PageHelper;
@@ -35,5 +36,10 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunityDetailsVo searchDetailsInfo(int communityId) {
         return communityDao.detailsInfo(communityId);
+    }
+
+    @Override
+    public List<MyCommunityVo> getCommunityByUserId(String userId) {
+        return communityDao.getCommunityByUserId(userId);
     }
 }

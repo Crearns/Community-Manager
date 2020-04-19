@@ -2,11 +2,12 @@ package com.cms.community.controller;
 
 import com.cms.common.common.ResponseCode;
 import com.cms.common.common.ServerResponse;
-import com.cms.common.entity.Community;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
+import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.community.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,4 +35,17 @@ public class CommunityController {
         }
         return ServerResponse.createFailureResponse(ResponseCode.NULL);
     }
+
+    @GetMapping("/userCommunity")
+    public ServerResponse<List<MyCommunityVo>> userCommunity(String userId) {
+        List<MyCommunityVo> res = communityService.getCommunityByUserId(userId);
+
+        if (CollectionUtils.isEmpty(res)) {
+            return ServerResponse.createFailureResponse(ResponseCode.NULL);
+        }
+
+        return ServerResponse.createSuccessResponse(res);
+    }
+
+
 }

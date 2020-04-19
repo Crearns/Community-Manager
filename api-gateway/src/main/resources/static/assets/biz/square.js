@@ -30,8 +30,7 @@ function showSquareList() {
                         "\t<td> "+ dateFormat(val.gmtCreate) +" </td>\n" +
                         "\t<td> "+ president +" </td>\n" +
                         "\t<td> "+ val.historyNum +" </td>\n" +
-                        "\t</tr>\n" +
-                        "<tr>"
+                        "\t</tr>";
                     $("#squareList").append(str);
                     num++;
                 });
@@ -51,7 +50,7 @@ function showSquareList() {
             }
         },
         error: function (err) {
-            alert(JSON.stringify(err))
+            // alert(JSON.stringify(err))
         }
     })
 }

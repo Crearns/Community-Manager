@@ -53,6 +53,20 @@ function getUser() {
     return userInfo.principal
 }
 
+function requestToken() {
+    $.ajax({
+        url: "uaa/oauth/token",
+        datatype: 'json',
+        type: "get",
+        success: function (res) {
+            alert(JSON.stringify(res))
+        },
+        error: function (err) {
+            alert(JSON.stringify(err))
+        }
+    })
+}
+
 
 function refresh_token(){
     $.ajax({

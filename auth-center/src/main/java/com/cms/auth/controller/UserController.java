@@ -12,39 +12,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
 /**
  * @author Creams
  */
-@Controller
+@RestController
 public class UserController {
-    @Qualifier("consumerTokenServices")
-    @Autowired
-    private ConsumerTokenServices tokenServices;
 
     @GetMapping("user/me")
-    @ResponseBody
     public Principal user(Principal principal) {
         return principal;
     }
 
-    @GetMapping("/getUser")
-    @ResponseBody
-    public ServerResponse<String> getUser() {
+    @GetMapping("/user/userId")
+    public String getUser() {
         String user = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if (StringUtils.isBlank(user)) {
-            return ServerResponse.createFailureResponse("User not found");
-        } else {
-            return ServerResponse.createSuccessResponse(user);
-        }
-    }
+        System.out.println(user);
 
-    @DeleteMapping(value = "/removeToken", params = {"accessToken"})
-    @ResponseBody
-    public void removeToken(String accessToken) {
-        tokenServices.revokeToken(accessToken);
+        return user;
     }
 }

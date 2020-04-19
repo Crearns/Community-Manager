@@ -3,6 +3,7 @@ package com.cms.community.dao;
 import com.cms.common.entity.Community;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
+import com.cms.common.vo.community.MyCommunityVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface CommunityDao {
     int count();
 
     CommunityDetailsVo detailsInfo(Integer id);
+
+    List<MyCommunityVo> getCommunityByUserId(String userId);
 }

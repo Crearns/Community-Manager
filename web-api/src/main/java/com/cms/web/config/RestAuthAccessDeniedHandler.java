@@ -1,0 +1,25 @@
+package com.cms.web.config;
+
+import com.alibaba.fastjson.JSONObject;
+import com.cms.common.common.ResponseCode;
+import com.cms.common.common.ServerResponse;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Service
+public class RestAuthAccessDeniedHandler implements AccessDeniedHandler {
+
+    @Override
+    public void handle(HttpServletRequest request,
+                       HttpServletResponse response,
+                       AccessDeniedException e) throws IOException{
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(JSONObject.toJSONString(ServerResponse.createFailureResponse(ResponseCode.ACCESS_DENIED)));
+    }
+}

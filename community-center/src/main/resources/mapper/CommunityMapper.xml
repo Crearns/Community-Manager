@@ -31,6 +31,12 @@
     <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
   </resultMap>
 
+  <resultMap id="MyCommunityMap" type="com.cms.common.vo.community.MyCommunityVo">
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+  </resultMap>
+
 
   <sql id="Base_Column_List">
     id, gmt_create, gmt_modified, `name`, catalog_id, history_num, description
@@ -144,6 +150,13 @@
     LEFT JOIN tb_user u ON uc.user_id=u.id AND uc.community_id=ct.id AND uc.role_id=1
     LEFT JOIN (select community_id, count(*) as member_count from user_community group by community_id) ucc on ucc.community_id=ct.id
     WHERE ct.id = #{id}
+  </select>
+
+
+  <select id="getCommunityByUserId" parameterType="string" resultType="com.cms.common.vo.community.MyCommunityVo" resultMap="MyCommunityMap">
+    SELECT  name, role_name, description
+    FROM tb_community c, tb_role r, user_community uc, tb_user u
+    WHERE uc.role_id=r.id AND uc.community_id=c.id AND uc.user_id=u.id AND u.user_id=#{userId}
   </select>
 
 </mapper>
