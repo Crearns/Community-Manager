@@ -25,13 +25,5 @@ community-service:
   ribbon:
     listOfServers: http://127.0.0.1:9001
 
-security:
-  oauth2:
-    client:
-      clientId: webapp
-      clientSecret: 12345
-      accessTokenUri: http://localhost:6001/uaa/oauth/token
-      userAuthorizationUri: http://localhost:6001/uaa/oauth/authorize
-    resource:
-      userInfoUri: http://localhost:6001/uaa/user/me
+
 

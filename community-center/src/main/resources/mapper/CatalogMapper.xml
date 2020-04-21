@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.community.dao.CatalogDao">
+  <resultMap id="BaseResultMap" type="com.cms.common.entity.Catalog">
+    <id column="id" jdbcType="TINYINT" property="id" />
+    <result column="catalog_name" jdbcType="VARCHAR" property="catalogName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `catalog_name`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from community_catalog
+    where id = #{id,jdbcType=TINYINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Byte">
+    delete from community_catalog
+    where id = #{id,jdbcType=TINYINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cms.common.entity.Catalog" useGeneratedKeys="true">
+    insert into community_catalog (`catalog_name`)
+    values (#{catalogName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cms.common.entity.Catalog" useGeneratedKeys="true">
+    insert into community_catalog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="catalogName != null">
+        `catalog_name`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="catalogName != null">
+        #{catalogName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cms.common.entity.Catalog">
+    update community_catalog
+    <set>
+      <if test="catalogName != null">
+        `catalog_name` = #{catalogName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=TINYINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cms.common.entity.Catalog">
+    update community_catalog
+    set `catalog_name` = #{catalogName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=TINYINT}
+  </update>
+
+  <select id="getAll" resultType="com.cms.common.entity.Catalog" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM community_catalog
+  </select>
+</mapper>

@@ -17,7 +17,7 @@
         <module>common</module>
         <module>community-center</module>
         <module>web-api</module>
-        <module>web-socket-message-push-service</module>
+        <module>work-sheet-center</module>
     </modules>
 
     <parent>

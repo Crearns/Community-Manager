@@ -2,6 +2,7 @@ package com.cms.web.controller;
 
 import com.cms.common.common.ResponseCode;
 import com.cms.common.common.ServerResponse;
+import com.cms.common.entity.Catalog;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
@@ -41,6 +42,11 @@ public class CommunityController {
 
     @GetMapping("/myCommunity")
     public ServerResponse<List<MyCommunityVo>> myCommunity(Principal principal) {
-        return communityClient.myCommunity(principal.getName());
+        return communityClient.myCommunity("aa"); // todo : get current user
+    }
+
+    @GetMapping("/catalogList")
+    public ServerResponse<List<Catalog>> catalogList() {
+        return communityClient.catalogList();
     }
 }

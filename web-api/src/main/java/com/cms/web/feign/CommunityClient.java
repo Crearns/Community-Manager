@@ -1,6 +1,7 @@
 package com.cms.web.feign;
 
 import com.cms.common.common.ServerResponse;
+import com.cms.common.entity.Catalog;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -28,4 +30,8 @@ public interface CommunityClient {
 
     @GetMapping("/community/userCommunity")
     ServerResponse<List<MyCommunityVo>> myCommunity(@RequestParam("userId") String userId);
+
+    @GetMapping("/community/catalogList")
+    ServerResponse<List<Catalog>> catalogList();
+
 }
