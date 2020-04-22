@@ -1,21 +1,17 @@
-package com.cms.common.entity;
-
-import java.io.Serializable;
-import java.util.Date;
+package com.cms.common.query;
 
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
- * @author 
- * 
+ * @author Creams
  */
 @Data
 @Builder
-public class Worksheet implements Serializable {
+public class WorksheetQuery {
     private Integer id;
-    private Date gmtCreate;
-    private Date gmtModified;
     private String name;
     private Long submitUserId;
     private Long auditUserId;

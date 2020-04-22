@@ -1,5 +1,7 @@
 package com.cms.community.service;
 
+import com.cms.common.entity.Community;
+import com.cms.common.query.CommunityQuery;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
@@ -15,4 +17,6 @@ public interface CommunityService {
     CommunityDetailsVo searchDetailsInfo(int communityId);
 
     List<MyCommunityVo> getCommunityByUserId(String userId);
+
+    List<Community> query(CommunityQuery communityQuery);
 }

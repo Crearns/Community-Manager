@@ -1,5 +1,7 @@
 package com.cms.community.service.impl;
 
+import com.cms.common.entity.Community;
+import com.cms.common.query.CommunityQuery;
 import com.cms.common.util.PageBean;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
@@ -41,5 +43,10 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<MyCommunityVo> getCommunityByUserId(String userId) {
         return communityDao.getCommunityByUserId(userId);
+    }
+
+    @Override
+    public List<Community> query(CommunityQuery communityQuery) {
+        return communityDao.query(communityQuery);
     }
 }

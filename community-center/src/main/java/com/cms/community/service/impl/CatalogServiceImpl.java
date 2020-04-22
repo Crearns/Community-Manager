@@ -22,4 +22,9 @@ public class CatalogServiceImpl implements CatalogService {
     public List<Catalog> getAll() {
         return catalogDao.getAll();
     }
+
+    @Override
+    public Catalog selectById(Byte id) {
+        return catalogDao.selectByPrimaryKey(id);
+    }
 }

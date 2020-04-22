@@ -13,7 +13,7 @@ function showCatalog() {
         success: function (res) {
             if (res.code === 0) {
                 $.each(res.data, function (idx, val) {
-                    str = "<option id='"+val.id+"'>"+val.catalogName+"</option>"
+                    str = "<option id='"+val.id+"'>"+val.catalogName+"</option>";
                     $("#community_catalog").append(str)
                 })
             } else {
@@ -27,8 +27,29 @@ function showCatalog() {
 
 
 function submit_apply() {
+    var userInfo = getUser();
     if (validate() && confirm("提交后将给大连海事大学社团联合会进行审核，确认提交吗?")) {
-
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "web/community/communityFound",
+            data: {
+                name: $("#community_name").val(),
+                id: userInfo.id,
+                catalog: $("#community_catalog option:selected").attr("id"),
+                description: $("#community_description").val()
+            },
+            success: function (res) {
+                if (res.code === 0) {
+                    alert("社团申请成功，目前正在社联审核中，请耐心等待")
+                    location.href = "/square.html"
+                } else {
+                    location.href = "/error.html"
+                }
+            }, error: function (err) {
+                alert(JSON.stringify(err))
+            }
+        })
     }
 
 }

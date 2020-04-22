@@ -2,6 +2,8 @@ package com.cms.community.controller;
 
 import com.cms.common.common.ResponseCode;
 import com.cms.common.common.ServerResponse;
+import com.cms.common.entity.Community;
+import com.cms.common.query.CommunityQuery;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
@@ -47,5 +49,12 @@ public class CommunityController {
         return ServerResponse.createSuccessResponse(res);
     }
 
+
+    @GetMapping("/community")
+    public ServerResponse<List<Community>> community(@RequestParam("name") String name) {
+        CommunityQuery query = new CommunityQuery();
+        query.setName(name);
+        return ServerResponse.createSuccessResponse(communityService.query(query));
+    }
 
 }

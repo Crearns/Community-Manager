@@ -7,6 +7,7 @@ import com.cms.community.service.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,5 +31,16 @@ public class CatalogController {
         }
 
         return ServerResponse.createSuccessResponse(catalogs);
+    }
+
+    @GetMapping("/catalog")
+    public ServerResponse<Catalog> catalogName(@RequestParam("id") Byte id) {
+        Catalog res = catalogService.selectById(id);
+
+        if (res == null) {
+            return ServerResponse.createFailureResponse(ResponseCode.NULL);
+        }
+
+        return ServerResponse.createSuccessResponse(res);
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface CatalogService {
     List<Catalog> getAll();
+
+    Catalog selectById(Byte id);
 }

@@ -16,6 +16,33 @@
     id, gmt_create, gmt_modified, `name`, submit_user_id, audit_user_id, `state`, content, 
     `catalog`
   </sql>
+
+  <sql id="querySQL">
+    <where>
+      <if test="id != null">
+        AND id = #{id}
+      </if>
+      <if test="name != null">
+        AND `name` = #{name}
+      </if>
+      <if test="submitUserId != null">
+        AND submit_user_id = #{submitUserId}
+      </if>
+      <if test="auditUserId != null">
+        AND audit_user_id = #{auditUserId}
+      </if>
+      <if test="state != null">
+        AND state = #{state}
+      </if>
+      <if test="content != null">
+        AND content = #{content}
+      </if>
+      <if test="catalog != null">
+        AND `catalog` = #{catalog}
+      </if>
+    </where>
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -131,4 +158,9 @@
       `catalog` = #{catalog,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="query" parameterType="com.cms.common.query.WorksheetQuery" resultMap="BaseResultMap" resultType="com.cms.common.entity.Worksheet">
+    SELECT <include refid="Base_Column_List"/>
+    FROM tb_worksheet <include refid="querySQL"/>
+  </select>
 </mapper>

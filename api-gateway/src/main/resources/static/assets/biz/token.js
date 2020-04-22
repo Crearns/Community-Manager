@@ -12,7 +12,7 @@ function getUser() {
             var msg = xhr.responseText;
             var message = "";
             if(msg !== undefined && msg !== ""){
-                console.log(msg)
+                console.log(msg);
                 var response = JSON.parse(msg);
                 var exception = response.exception;
                 if(exception){
@@ -66,6 +66,8 @@ function requestToken() {
         }
     })
 }
+
+
 
 
 function refresh_token(){

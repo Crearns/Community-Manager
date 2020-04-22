@@ -34,4 +34,7 @@ public interface CommunityClient {
     @GetMapping("/community/catalogList")
     ServerResponse<List<Catalog>> catalogList();
 
+    @GetMapping("/community/catalog")
+    ServerResponse<Catalog> catalog(@RequestParam("id") Byte id);
+
 }
