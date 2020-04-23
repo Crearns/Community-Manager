@@ -14,14 +14,25 @@ function apply() {
         data: {
             id: userInfo.id
         },
-        success: function () {
+        success: function (res) {
+            if (res.code === 0) {
+                $.each(res.data, function (idx, val) {
+                    str = "<tr>\n" +
+                        "<td><a href='applyDetails.html'>"+val.title+"</a></td>\n" +
+                        "<td>"+dateFormat(val.create)+"</td>\n" +
+                        "<td>"+dateFormat(val.modified)+"</td>\n" +
+                        "<td>"+val.state+"</td>\n" +
+                        "</tr>";
 
-        }, error: function () {
-
+                    $("#applyTable").append(str)
+                })
+            }
+        }, error: function (err) {
+            alert(JSON.stringify(err))
         }
     })
 }
 
 
-
 showUserInfo();
+apply();
