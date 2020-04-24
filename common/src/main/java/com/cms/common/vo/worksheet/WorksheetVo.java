@@ -18,6 +18,7 @@ public class WorksheetVo {
     public Date modified;
     public String state;
     public String content;
+    public String remark;
 
     public static WorksheetVo wrap(Worksheet worksheet) {
         WorksheetVo worksheetVo = new WorksheetVo();
@@ -26,6 +27,7 @@ public class WorksheetVo {
         worksheetVo.setModified(worksheet.getGmtModified());
         worksheetVo.setState(SheetState.valueOf(worksheet.getState()).getDesc());
         worksheetVo.setTitle(WorksheetUtil.WorksheetNameGenerator(worksheet));
+        worksheetVo.setRemark(worksheet.getRemark());
         return worksheetVo;
     }
 }

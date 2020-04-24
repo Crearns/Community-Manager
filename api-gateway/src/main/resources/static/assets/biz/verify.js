@@ -8,7 +8,7 @@ function showUserInfo() {
 
 function apply() {
     $.ajax({
-        url: "web/worksheet/worksheetInfo",
+        url: "web/worksheet/verifyInfo",
         type: "get",
         dataType: "json",
         data: {
@@ -27,7 +27,7 @@ function apply() {
                         "<td style='"+style+"'>"+val.state+"</td>\n" +
                         "</tr>";
 
-                    $("#applyTable").append(str)
+                    $("#verifyTable").append(str)
                 })
             }
         }, error: function (err) {
@@ -39,8 +39,6 @@ function apply() {
 function b64Encode(str) {
     return btoa(encodeURIComponent(str));
 }
-
-
 
 showUserInfo();
 apply();

@@ -105,10 +105,45 @@
 						<div class="widget-header"> <i class="icon-book"></i>
 							<h3>我的申请详情</h3>
 						</div>
-						<div class="widget-content">
+						<div class="widget-content"><br>
+							<form id="community-profile" class="form-horizontal">
+								<div class="control-group">
+									<label class="control-label" for="sheet_title">申请主题:</label>
+									<div class="controls">
+										<input type="text" class="span8 disabled" id="sheet_title" disabled="">
+									</div> <!-- /controls -->
+								</div> <!-- /control-group -->
 
+								<div class="control-group">
+									<label class="control-label" for="sheet_create">申请时间:</label>
+									<div class="controls" >
+										<input class="span8" id="sheet_create" disabled=""/>
+									</div> <!-- /controls -->
+								</div> <!-- /control-group -->
 
-						</div> <!-- /widget-content -->
+								<div class="control-group">
+									<label class="control-label" for="sheet_modified" disabled="">更新时间:</label>
+									<div class="controls" >
+										<input class="span8" id="sheet_modified" disabled=""/>
+
+									</div> <!-- /controls -->
+								</div> <!-- /control-group -->
+
+								<div class="control-group">
+									<label class="control-label" for="sheet_content">申请单内容:</label>
+									<div class="controls">
+										<textarea style="margin: 0px; width: 760px; height: 346px;resize:none;" id="sheet_content" disabled=""></textarea>
+									</div> <!-- /controls -->
+								</div> <!-- /control-group -->
+
+								<div class="control-group">
+									<label class="control-label" for="sheet_remark">备注:</label>
+									<div class="controls">
+										<textarea style="margin: 0px; width: 760px; height: 346px;resize:none;" id="sheet_remark" disabled=""></textarea>
+									</div> <!-- /controls -->
+								</div> <!-- /control-group -->
+							</form>
+						</div>
 					</div> <!-- /widget -->
 				</div>
 			</div> <!-- /row -->
@@ -125,6 +160,7 @@
 <script src="assets/biz/token.js"></script>
 <script src="assets/main/js/bootstrap.js"></script>
 <script src="assets/main/js/base.js"></script>
+<script src="assets/biz/applyDetails.js"></script>
 
 
   </body>

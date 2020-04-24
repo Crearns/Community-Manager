@@ -17,7 +17,7 @@ function showMyCommunity() {
                 var num = 0;
                 $.each(res.data, function (idx, val) {
                     str = "<tr>\n" +
-                        "\t<td> <h3><a>"+ val.name +" </a></h3>" +
+                        "\t<td> <h3><a href='community_manage.html'>"+ val.name +" </a></h3>" +
                         "<h4>职务: "+val.roleName+"         加入时间: "+dateFormat(val.createDate)+"</h4>" +
                         "</td>\n" +
                         "\t</tr>";

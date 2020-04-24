@@ -3,7 +3,6 @@ package com.cms.common.query;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
 
 /**
  * @author Creams
@@ -18,4 +17,5 @@ public class WorksheetQuery {
     private Integer state;
     private String content;
     private Integer catalog;
+    private String remark;
 }

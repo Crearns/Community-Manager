@@ -85,4 +85,21 @@ public class WorksheetController {
 
         return ServerResponse.createSuccessResponse(res);
     }
+
+    @GetMapping("/verifyInfo")
+    public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id) {
+        WorksheetQuery worksheetQuery = WorksheetQuery.builder()
+                .auditUserId(id)
+                .build();
+        List<Worksheet> worksheets = worksheetService.query(worksheetQuery);
+
+        List<WorksheetVo> res = new ArrayList<>();
+
+        for (Worksheet worksheet : worksheets) {
+            WorksheetVo worksheetVo = WorksheetVo.wrap(worksheet);
+            res.add(worksheetVo);
+        }
+
+        return ServerResponse.createSuccessResponse(res);
+    }
 }

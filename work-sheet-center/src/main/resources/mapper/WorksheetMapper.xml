@@ -11,10 +11,11 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="catalog" jdbcType="INTEGER" property="catalog" />
+    <result column="remark" jdbcType="VARCHAR" property="remark"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, gmt_create, gmt_modified, `name`, submit_user_id, audit_user_id, `state`, content, 
-    `catalog`
+    `catalog`, remark
   </sql>
 
   <sql id="querySQL">
@@ -39,6 +40,9 @@
       </if>
       <if test="catalog != null">
         AND `catalog` = #{catalog}
+      </if>
+      <if test="remark != null">
+        AND remark = #{remark}
       </if>
     </where>
   </sql>
@@ -162,5 +166,6 @@
   <select id="query" parameterType="com.cms.common.query.WorksheetQuery" resultMap="BaseResultMap" resultType="com.cms.common.entity.Worksheet">
     SELECT <include refid="Base_Column_List"/>
     FROM tb_worksheet <include refid="querySQL"/>
+    ORDER BY gmt_modified DESC
   </select>
 </mapper>

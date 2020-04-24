@@ -26,4 +26,7 @@ public interface WorksheetClient {
 
     @GetMapping("sheet/worksheetInfo")
     ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id);
+
+    @GetMapping("sheet/verifyInfo")
+    ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id);
 }

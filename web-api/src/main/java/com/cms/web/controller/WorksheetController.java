@@ -28,4 +28,10 @@ public class WorksheetController {
     }
 
 
+    @GetMapping("/verifyInfo")
+    public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id) {
+        return worksheetClient.verifyInfo(id);
+    }
+
+
 }

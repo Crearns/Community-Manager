@@ -22,4 +22,5 @@ public class Worksheet implements Serializable {
     private Integer state;
     private String content;
     private Integer catalog;
+    private String remark;
 }

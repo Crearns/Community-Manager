@@ -18,7 +18,6 @@ function showSquareList() {
         type:"get",
         success: function (res) {
             if (res.code === 0) {
-                var num = 0;
                 $.each(res.data, function (idx, val) {
                     var president = val.president;
                     if (president === null)
@@ -32,21 +31,7 @@ function showSquareList() {
                         "\t<td> "+ val.historyNum +" </td>\n" +
                         "\t</tr>";
                     $("#squareList").append(str);
-                    num++;
                 });
-
-                for (let i = num+1; i <= 20; i++) {
-                    str = "<tr>\n" +
-                        "\t<td> " + " " + " </td>\n" +
-                        "\t<td>  </td>\n" +
-                        "\t<td>  </td>\n" +
-                        "\t<td>  </td>\n" +
-                        "\t<td>  </td>\n" +
-                        "\t<td>  </td>\n" +
-                        "\t</tr>\n" +
-                        "<tr>";
-                    $("#squareList").append(str);
-                }
             }
         },
         error: function (err) {
