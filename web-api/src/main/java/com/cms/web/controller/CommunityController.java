@@ -6,6 +6,7 @@ import com.cms.common.entity.Worksheet;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
+import com.cms.common.vo.news.NewsWindowsVo;
 import com.cms.web.feign.CommunityClient;
 import com.cms.web.feign.OauthClient;
 import com.cms.web.feign.WorksheetClient;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 /**
@@ -74,6 +74,27 @@ public class CommunityController {
         return worksheetClient.createWorksheet(name, id, content.toString(), 1);
     }
 
+    @GetMapping("/memberShip")
+    public ServerResponse<Integer> memberShip(@RequestParam("userId") Long userId, @RequestParam("communityId") Integer communityId){
+        return communityClient.memberShip(userId, communityId);
+    }
 
+    @PutMapping("/communityDescription")
+    public ServerResponse communityDescription(@RequestParam("communityId") Integer communityId, @RequestParam("description") String description) {
+        return communityClient.communityDescription(communityId, description);
+    }
 
+    @GetMapping("/newsWindow")
+    public ServerResponse<List<NewsWindowsVo>> newWindow(@RequestParam("visible") Integer visible, @RequestParam("communityId") Integer communityId, Long userId) {
+        return communityClient.newsWindow(visible, communityId, userId);
+    }
+
+    @PostMapping("news")
+    ServerResponse newsSubmit(@RequestParam("communityId") Integer communityId,
+                              @RequestParam("userId") Long userId,
+                              @RequestParam("visible") Byte visible,
+                              @RequestParam("title") String title,
+                              @RequestParam("content") String content) {
+        return communityClient.newsSubmit(communityId, userId, visible, title, content);
+    }
 }

@@ -19,4 +19,8 @@ public interface CommunityService {
     List<MyCommunityVo> getCommunityByUserId(String userId);
 
     List<Community> query(CommunityQuery communityQuery);
+
+    Integer memberShip(Long userId, Integer communityId);
+
+    void updateDescription(Integer communityId, String description);
 }

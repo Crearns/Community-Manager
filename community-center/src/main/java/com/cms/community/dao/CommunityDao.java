@@ -5,6 +5,7 @@ import com.cms.common.query.CommunityQuery;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,4 +33,6 @@ public interface CommunityDao {
     List<MyCommunityVo> getCommunityByUserId(String userId);
 
     List<Community> query(CommunityQuery communityQuery);
+
+    Integer memberShip(@Param(("userId")) Long userId, @Param("communityId") Integer communityId);
 }

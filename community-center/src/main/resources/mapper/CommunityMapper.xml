@@ -32,6 +32,7 @@
   </resultMap>
 
   <resultMap id="MyCommunityMap" type="com.cms.common.vo.community.MyCommunityVo">
+    <result column="id" jdbcType="INTEGER" property="id"/>
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="createDate"/>
@@ -122,17 +123,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cms.common.entity.Community">
     update tb_community
     <set>
-      <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        gmt_modifed = #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="catalogId != null">
-        catalog_id = #{catalogId,jdbcType=TINYINT},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -175,7 +167,7 @@
 
 
   <select id="getCommunityByUserId" parameterType="string" resultType="com.cms.common.vo.community.MyCommunityVo" resultMap="MyCommunityMap">
-    SELECT  name, role_name, uc.gmt_create
+    SELECT  c.id, name, role_name, uc.gmt_create
     FROM tb_community c, tb_role r, user_community uc, tb_user u
     WHERE uc.role_id=r.id AND uc.community_id=c.id AND uc.user_id=u.id AND u.user_id=#{userId}
   </select>
@@ -185,5 +177,8 @@
     FROM tb_community <include refid="querySQL"/>
   </select>
 
+  <select id="memberShip" resultType="integer">
+    SELECT role_id FROM user_community where user_id=#{userId} and community_id=#{communityId}
+  </select>
 
 </mapper>

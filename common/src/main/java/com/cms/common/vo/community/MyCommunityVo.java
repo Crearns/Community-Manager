@@ -9,6 +9,7 @@ import java.util.Date;
  */
 @Data
 public class MyCommunityVo {
+    private Integer id;
     private String name;
     private String roleName;
     private Date createDate;

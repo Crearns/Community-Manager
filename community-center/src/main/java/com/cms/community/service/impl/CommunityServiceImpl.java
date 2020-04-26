@@ -23,7 +23,6 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunityDao communityDao;
 
-
     @Override
     public List<CommunitySquareVo> getSquareList(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
@@ -48,5 +47,18 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<Community> query(CommunityQuery communityQuery) {
         return communityDao.query(communityQuery);
+    }
+
+    @Override
+    public Integer memberShip(Long userId, Integer communityId) {
+        return communityDao.memberShip(userId, communityId);
+    }
+
+    @Override
+    public void updateDescription(Integer communityId, String description) {
+        Community community = new Community();
+        community.setId(communityId);
+        community.setDescription(description);
+        communityDao.updateByPrimaryKeySelective(community);
     }
 }

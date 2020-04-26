@@ -57,4 +57,19 @@ public class CommunityController {
         return ServerResponse.createSuccessResponse(communityService.query(query));
     }
 
+    @GetMapping("/memberShip")
+    public ServerResponse<Integer> memberShip(@RequestParam("userId") Long userId, @RequestParam("communityId") Integer communityId) {
+        Integer role = communityService.memberShip(userId, communityId);
+        if (role == null) {
+            return ServerResponse.createFailureResponse(ResponseCode.NO_PERMISSION);
+        }
+
+        return ServerResponse.createSuccessResponse(role);
+    }
+
+    @PutMapping("/communityDescription")
+    public ServerResponse communityDescription(@RequestParam("communityId") Integer communityId, @RequestParam("description") String description) {
+        communityService.updateDescription(communityId, description);
+        return ServerResponse.createSuccessResponse();
+    }
 }

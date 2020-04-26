@@ -5,13 +5,22 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId"/>
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="author_id" jdbcType="BIGINT" property="authorId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="visible" jdbcType="TINYINT" property="visible" />
   </resultMap>
+
+  <resultMap id="Window" type="com.cms.common.vo.news.NewsWindowsVo">
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="real_name" jdbcType="VARCHAR" property="author" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
   <sql id="Base_Column_List">
-    id, gmt_create, gmt_modified, title, author_id, content, visible
+    id, gmt_create, gmt_modified, community_id, title, author_id, content, visible
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,7 +36,7 @@
     insert into tb_news (gmt_create, gmt_modified, title, 
       author_id, content, visible
       )
-    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, 
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{community_id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
       #{authorId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{visible,jdbcType=TINYINT}
       )
   </insert>
@@ -39,6 +48,9 @@
       </if>
       <if test="gmtModified != null">
         gmt_modified,
+      </if>
+      <if test="communityId != null">
+        community_id,
       </if>
       <if test="title != null">
         title,
@@ -59,6 +71,9 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -82,6 +97,9 @@
       </if>
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -108,4 +126,14 @@
       visible = #{visible,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectAllNews" resultType="com.cms.common.vo.news.NewsWindowsVo" resultMap="Window">
+    SELECT n.gmt_create, n.gmt_modified, title, real_name, content
+    FROM tb_news n, tb_user u
+    WHERE n.author_id=u.id AND n.community_id=#{communityId}
+    <if test="visible == 1">
+      AND visible=#{visible}
+    </if>
+    ORDER BY n.gmt_modified DESC
+  </select>
 </mapper>

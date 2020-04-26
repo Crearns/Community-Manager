@@ -21,7 +21,7 @@
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
-				class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span> </a><a class="brand" href="index.html">大连海事大学 社团之家 管理系统</a>
+				class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span> </a><a class="brand" href="main.html">大连海事大学 社团之家 管理系统</a>
 			<div class="nav-collapse">
 				<ul class="nav pull-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -89,7 +89,7 @@
 									<li class="active">
 										<a href="#formcontrols" data-toggle="tab">社团基本信息</a>
 									</li>
-									<li class=""><a href="#jscontrols" data-toggle="tab">社团对外新闻</a></li>
+									<li class=""><a href="#window" data-toggle="tab">社团对外新闻</a></li>
 								</ul>
 								<br>
 								<div class="tab-content">
@@ -155,12 +155,13 @@
 
 									</div>
 
-									<div class="tab-pane" id="jscontrols">
-										<form id="edit-profile2" class="form-vertical">
-											<fieldset>
-
-											</fieldset>
-										</form>
+									<div class="tab-pane" id="window">
+										<div class="widget-content" style="height: 700px;overflow:scroll;">
+											<table class="table table-striped table-bordered">
+												<tbody id="windowList" >
+												</tbody>
+											</table>
+										</div> <!-- /widget-content -->
 									</div>
 								</div>
 							</div>
@@ -176,7 +177,9 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/biz/common/DateFormat.js"></script>
 
+<script src="assets/biz/common/codec.js"></script>
 <script src="assets/biz/common/const.js"></script>
 <script src="assets/main/js/jquery-1.7.2.min.js"></script>
 <script src="assets/biz/token.js"></script>
