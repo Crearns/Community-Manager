@@ -13,6 +13,20 @@
     <result column="catalog" jdbcType="INTEGER" property="catalog" />
     <result column="remark" jdbcType="VARCHAR" property="remark"/>
   </resultMap>
+
+  <resultMap id="CommunityApplyMap" type="com.cms.common.vo.worksheet.WorksheetInfoVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="submitName" jdbcType="VARCHAR" property="submitRealName"/>
+    <result column="auditName" jdbcType="VARCHAR" property="auditRealName"/>
+    <result column="content" jdbcType="VARCHAR" property="content"/>
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="catalog" jdbcType="INTEGER" property="catalog" />
+    <result column="remark" jdbcType="VARCHAR" property="remark"/>
+  </resultMap>
   <sql id="Base_Column_List">
     id, gmt_create, gmt_modified, `name`, submit_user_id, audit_user_id, `state`, content, 
     `catalog`, remark
@@ -168,4 +182,52 @@
     FROM tb_worksheet <include refid="querySQL"/>
     ORDER BY gmt_modified DESC
   </select>
+  
+  <select id="communitySheet" resultMap="CommunityApplyMap" resultType="com.cms.common.vo.worksheet.WorksheetInfoVo" parameterType="com.cms.common.query.WorksheetQuery">
+    select w.id, w.gmt_create, w.gmt_modified, w.name, u1.real_name as 'submitName', u2.real_name as 'auditName', w.content, w.catalog, w.remark, state
+    from tb_worksheet w
+    left join tb_user u1 on w.submit_user_id=u1.id
+    left join  tb_user u2 on w.audit_user_id=u2.id
+    <where>
+      <if test="name != null">
+        AND `name` = #{name}
+      </if>
+      <if test="catalog != null">
+        AND `catalog` = #{catalog}
+      </if>
+      <if test="state != null">
+        AND state = #{state}
+      </if>
+      <if test="submitUserId != null">
+        AND submit_user_id = #{submitUserId,jdbcType=BIGINT}
+      </if>
+      <if test="auditUserId != null">
+        AND audit_user_id = #{auditUserId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+
+  <select id="union" resultMap="CommunityApplyMap" resultType="com.cms.common.vo.worksheet.WorksheetInfoVo" parameterType="com.cms.common.query.WorksheetQuery">
+    select w.id, w.gmt_create, w.gmt_modified, w.name, u1.real_name as 'submitName', u2.real_name as 'auditName', w.content, w.catalog, w.remark, state
+    from tb_worksheet w
+    left join tb_user u1 on w.submit_user_id=u1.id
+    left join  tb_user u2 on w.audit_user_id=u2.id
+    <where>
+      <if test="state != null">
+        AND state = #{state}
+      </if>
+    </where>
+    AND `catalog` = 1 or `catalog` = 2 or `catalog` = 4
+  </select>
+
+  <select id="applyRecord" resultType="integer">
+    SELECT count(*)
+    FROM tb_worksheet s, tb_community c
+    where s.name = c.name
+    and c.id = #{communityId}
+    and submit_user_id = #{userId}
+    and state = 0
+  </select>
+
+
 </mapper>

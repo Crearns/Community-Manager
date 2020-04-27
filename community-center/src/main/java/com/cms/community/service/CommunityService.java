@@ -23,4 +23,8 @@ public interface CommunityService {
     Integer memberShip(Long userId, Integer communityId);
 
     void updateDescription(Integer communityId, String description);
+
+    int member(Long userId, Integer communityId, Integer roleId);
+
+    int createCommunity(String name, Byte catalogId, String description);
 }

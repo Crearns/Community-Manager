@@ -14,6 +14,7 @@ public enum ResponseCode {
     NO_LOGIN(20004, "No login"),
     LOGIN_FAILURE(20005, "Login Failure"),
     LOGIN_EXPIRE(20005, "Login expire"),
+    UNKNOWN(-1, "Unknown error")
 
     ;
 

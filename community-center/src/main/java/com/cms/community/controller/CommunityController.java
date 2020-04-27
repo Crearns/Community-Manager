@@ -9,6 +9,7 @@ import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.community.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,14 @@ public class CommunityController {
         return ServerResponse.createSuccessResponse(communityService.query(query));
     }
 
+    @GetMapping("/community-id")
+    public ServerResponse<List<Community>> community(@RequestParam("communityId") Integer communityId) {
+        CommunityQuery query = new CommunityQuery();
+        query.setId(communityId);
+        return ServerResponse.createSuccessResponse(communityService.query(query));
+    }
+
+
     @GetMapping("/memberShip")
     public ServerResponse<Integer> memberShip(@RequestParam("userId") Long userId, @RequestParam("communityId") Integer communityId) {
         Integer role = communityService.memberShip(userId, communityId);
@@ -71,5 +80,17 @@ public class CommunityController {
     public ServerResponse communityDescription(@RequestParam("communityId") Integer communityId, @RequestParam("description") String description) {
         communityService.updateDescription(communityId, description);
         return ServerResponse.createSuccessResponse();
+    }
+
+    @PostMapping("/member")
+    public ServerResponse member(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId) {
+        return ServerResponse.createSuccessResponse(communityService.member(userId, communityId, 3));
+    }
+
+    @PostMapping("/community")
+    public ServerResponse community(@RequestParam("name") String name,
+                                    @RequestParam("catalog") Byte catalog,
+                                    @RequestParam("description") String description) {
+        return ServerResponse.createSuccessResponse(communityService.createCommunity(name, catalog, description));
     }
 }

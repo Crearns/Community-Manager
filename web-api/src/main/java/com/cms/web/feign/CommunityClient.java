@@ -2,6 +2,7 @@ package com.cms.web.feign;
 
 import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Catalog;
+import com.cms.common.entity.Community;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
@@ -49,4 +50,21 @@ public interface CommunityClient {
                               @RequestParam("visible") Byte visible,
                               @RequestParam("title") String title,
                               @RequestParam("content") String content);
+
+
+    @GetMapping("/community/community-id")
+    ServerResponse<List<Community>> communityId(@RequestParam("communityId") Integer communityId);
+
+    @PostMapping("/community/member")
+    ServerResponse member(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId);
+
+    @GetMapping("/community/community")
+    ServerResponse<List<Community>> community(@RequestParam("name") String name);
+
+    @PostMapping("/community/community")
+    ServerResponse community(@RequestParam("name") String name,
+                                    @RequestParam("catalog") Byte catalog,
+                                    @RequestParam("description") String description);
+
+
 }

@@ -34,5 +34,7 @@ public interface CommunityDao {
 
     List<Community> query(CommunityQuery communityQuery);
 
-    Integer memberShip(@Param(("userId")) Long userId, @Param("communityId") Integer communityId);
+    int memberShip(@Param(("userId")) Long userId, @Param("communityId") Integer communityId);
+
+    int member(@Param(("userId")) Long userId, @Param("communityId") Integer communityId, @Param("roleId") Integer roleId);
 }

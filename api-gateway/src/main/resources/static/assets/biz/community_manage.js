@@ -30,6 +30,7 @@ function showCommunityInfo() {
             location.href="error.html"
         }
     });
+
     $.ajax({
         url: "web/community/communityDetails",
         data: {
@@ -169,7 +170,59 @@ function edit() {
     location.href = "edit_news.html?id=" + communityId
 }
 
+function showApply() {
+    const urlParams = new URLSearchParams(window.location.search);
+    var communityId = urlParams.get('id');
+    if (communityId == null) location.href="error.html";
+
+    $.ajax({
+        url: "web/worksheet/communityVerifyList",
+        dataType: "json",
+        type: "get",
+        data: {
+            communityId: communityId
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                $.each(res.data,  function (idx, val) {
+                    contentJson = b64Encode(JSON.stringify(val));
+                    str = "<tr>\n" +
+                        "<td><a href='applyDetails.html?content="+contentJson+"'>"+val.title+"</a></td>\n" +
+                        "<td>"+dateFormat(val.create)+"</td>\n" +
+                        "<td>"+dateFormat(val.modified)+"</td>\n" +
+                        "<td>"+val.submitName+"</td>\n" +
+                        "<td><a class='btn' onclick='agree("+val.id+", "+val.catalog+")'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+", "+val.catalog+")'>拒绝</a></td>\n" +
+                        "</tr>";
+                    $("#applyTable").append(str)
+                })
+            }
+        }, error: function (err) {
+        }
+    })
+}
+
+function agree(id, catalog) {
+    if (!confirm("此操作无法撤回，确认同意吗？")) {
+        return;
+    }
+
+
+
+
+}
+
+
+function disagree(id, catalog) {
+    var name = prompt("请输入拒绝原因");
+
+    if (!confirm("此操作无法撤回，确认拒绝吗？")) {
+        return;
+    }
+}
+
+
 
 showUserInfo();
 showCommunityInfo();
 showWindow();
+showApply();

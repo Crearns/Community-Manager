@@ -1,7 +1,11 @@
 function showUserInfo() {
-    var userInfo = getUser();
+    userInfo = getUser();
     $("#username").text(userInfo.realName);
 }
+
+
+var userInfo;
+var apply = 0;
 
 
 function showDetails() {
@@ -67,6 +71,63 @@ function showWindow() {
             }
         }, error: function (err) {
             alert(JSON.stringify(err));
+        }
+    })
+}
+
+function showApply() {
+    if (apply === 1) return;
+
+    apply = 1;
+    $("#edit-profile").append("" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='apply_content'>社团申请说明:</label>\n" +
+        "<div class='controls'>\n" +
+        "<textarea id='apply_content' style='height: 265px; width: 960px;resize:none'></textarea>\n" +
+        "</div>\n" +
+        "</div>")
+    
+    $("#control").append("" +
+        "<a class='btn btn-success' onclick='submit()'>提交申请</a>" +
+        "<span id='info' style='color: red'></span>")
+
+}
+
+function submit() {
+    const urlParams = new URLSearchParams(window.location.search);
+    var communityId = urlParams.get('id');
+    if (communityId == null) location.href="error.html";
+
+    var applyContent = $("#apply_content").val();
+    if (applyContent.length == 0) {
+        $("#info").text("输入信息不能为空");
+        return;
+    }
+
+    if (applyContent.length >= 1500) {
+        $("#info").text("输入信息长度超过限制，请修改后重试");
+        return;
+    }
+    $("#info").text("");
+    if (!confirm("提交后将会由社团人员进行审核，确认提交吗?")) {
+        return;
+    }
+    $.ajax({
+        url: "web/community/communityParticipation",
+        dataType: "json",
+        type: "post",
+        data: {
+            communityId: communityId,
+            userId: userInfo.id,
+            content: applyContent
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert("申请成功，请耐心等待审核");
+                location.href="details.html?id=" + communityId;
+            } else {
+                $("#info").text(res.msg);
+            }
         }
     })
 }

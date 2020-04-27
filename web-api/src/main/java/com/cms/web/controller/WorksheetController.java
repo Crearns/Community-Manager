@@ -4,10 +4,7 @@ import com.cms.common.common.ServerResponse;
 import com.cms.common.vo.worksheet.WorksheetVo;
 import com.cms.web.feign.WorksheetClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,11 +24,21 @@ public class WorksheetController {
         return worksheetClient.worksheetInfo(id);
     }
 
-
     @GetMapping("/verifyInfo")
     public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id) {
         return worksheetClient.verifyInfo(id);
     }
+
+    @GetMapping("/communityVerifyList")
+    public ServerResponse<List<WorksheetVo>> communityVerify(@RequestParam("communityId") Integer communityId) {
+        return worksheetClient.communityVerify(communityId);
+    }
+
+    @GetMapping("applyRecord")
+    public ServerResponse<Integer> applyRecord(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId) {
+        return worksheetClient.applyRecord(communityId, userId);
+    }
+
 
 
 }

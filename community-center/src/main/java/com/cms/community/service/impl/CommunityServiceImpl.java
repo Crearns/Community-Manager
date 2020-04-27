@@ -61,4 +61,18 @@ public class CommunityServiceImpl implements CommunityService {
         community.setDescription(description);
         communityDao.updateByPrimaryKeySelective(community);
     }
+
+    @Override
+    public int member(Long userId, Integer communityId, Integer roleId) {
+        return communityDao.member(userId, communityId, roleId);
+    }
+
+    @Override
+    public int createCommunity(String name, Byte catalogId, String description) {
+        Community community = new Community();
+        community.setCatalogId(catalogId);
+        community.setDescription(description);
+        community.setName(name);
+        return communityDao.insertSelective(community);
+    }
 }

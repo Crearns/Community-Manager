@@ -181,4 +181,9 @@
     SELECT role_id FROM user_community where user_id=#{userId} and community_id=#{communityId}
   </select>
 
+  <insert id="member">
+    INSERT INTO user_community
+    (user_id, community_id, role_id) values (#{userId}, #{communityId}, #{roleId})
+  </insert>
+
 </mapper>

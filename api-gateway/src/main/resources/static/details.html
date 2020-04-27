@@ -95,7 +95,6 @@
 								<div class="tab-content">
 									<div class="tab-pane active" id="formcontrols">
 										<form id="edit-profile" class="form-horizontal">
-											<fieldset>
 												<div class="control-group">
 													<label class="control-label" for="community_name">社团编号:</label>
 													<div class="controls">
@@ -146,11 +145,10 @@
 												</div> <!-- /control-group -->
 												<div class="control-group">
 													<label class="control-label" for="community_description">操作:</label>
-													<div class="controls">
-														<button class="btn btn-success">我想加入</button>
+													<div class="controls" id="control">
+														<a class="btn" onclick="showApply()">我想加入</a>
 													</div> <!-- /controls -->
 												</div> <!-- /control-group -->
-											</fieldset>
 										</form>
 
 									</div>
@@ -178,7 +176,6 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="assets/biz/common/DateFormat.js"></script>
-
 <script src="assets/biz/common/codec.js"></script>
 <script src="assets/biz/common/const.js"></script>
 <script src="assets/main/js/jquery-1.7.2.min.js"></script>

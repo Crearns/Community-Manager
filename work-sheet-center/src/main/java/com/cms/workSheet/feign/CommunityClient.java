@@ -17,4 +17,11 @@ public interface CommunityClient {
 
     @GetMapping("community/community")
     ServerResponse<List<Community>> community(@RequestParam("name") String name);
+
+    @GetMapping("community/community-id")
+    ServerResponse<List<Community>> communityId(@RequestParam("communityId") Integer communityId);
+
+    @GetMapping("/memberShip")
+    ServerResponse<Integer> memberShip(@RequestParam("userId") Long userId, @RequestParam("communityId") Integer communityId);
+
 }

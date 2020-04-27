@@ -10,19 +10,23 @@ function submitNews() {
     var communityId = urlParams.get('id');
     if (communityId == null) location.href="error.html";
 
-    if (!confirm("是否确认提交")) {
-        return;
-    }
+
 
     var title = $("#news_title").val();
     var content = $("#news_content").val();
 
     if (title.length == 0 || content.length == 0) {
         $("#info").text("请输入完整信息后提交");
+        return;
     }
 
     if (content.length >= 1800) {
         $("#info").text("公告长度超过限制，请修改后重试");
+        return;
+    }
+
+    if (!confirm("是否确认提交")) {
+        return;
     }
 
     $.ajax({

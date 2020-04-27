@@ -1,7 +1,10 @@
 package com.cms.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Catalog;
+import com.cms.common.entity.Community;
+import com.cms.common.entity.User;
 import com.cms.common.entity.Worksheet;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunitySquareVo;
@@ -53,7 +56,7 @@ public class CommunityController {
 
 
     @PostMapping("/communityFound")
-    public ServerResponse<Worksheet> applicationMember(@RequestParam("name") String name,
+    public ServerResponse<Worksheet> applicationCommunity(@RequestParam("name") String name,
                                                      @RequestParam("id") Long id, //user id
                                                      @RequestParam("catalog") Byte catalogId,
                                                      @RequestParam("description") String description) {
@@ -71,7 +74,11 @@ public class CommunityController {
                 .append("\t 社团基本介绍: \n")
                 .append("\t ").append(description);
 
-        return worksheetClient.createWorksheet(name, id, content.toString(), 1);
+        JSONObject object = new JSONObject();
+        object.put("communityCatalog", catalogId);
+        object.put("description", description);
+
+        return worksheetClient.createWorksheet(name, id, content.toString(), 1, object.toJSONString());
     }
 
     @GetMapping("/memberShip")
@@ -90,11 +97,36 @@ public class CommunityController {
     }
 
     @PostMapping("news")
-    ServerResponse newsSubmit(@RequestParam("communityId") Integer communityId,
+    public ServerResponse newsSubmit(@RequestParam("communityId") Integer communityId,
                               @RequestParam("userId") Long userId,
                               @RequestParam("visible") Byte visible,
                               @RequestParam("title") String title,
                               @RequestParam("content") String content) {
         return communityClient.newsSubmit(communityId, userId, visible, title, content);
+    }
+
+    @PostMapping("communityParticipation")
+    public ServerResponse communityParticipation(@RequestParam("communityId") Integer communityId,
+                                                 @RequestParam("userId") Long id, //user id
+                                                 @RequestParam("content") String content) {
+
+        ServerResponse<Integer> role = communityClient.memberShip(id, communityId);
+        if (role.getCode() == 0) {
+            return ServerResponse.createFailureResponse("您已是社团成员，请核对后重试");
+        }
+
+        Integer record = worksheetClient.applyRecord(communityId, id).getData();
+
+        if (record > 0) {
+            return ServerResponse.createFailureResponse("发现您有在流程中的申请记录，请耐心等待审核");
+        }
+
+        List<Community> communities = communityClient.communityId(communityId).getData();
+
+        if (communities.size() == 0) {
+            return ServerResponse.createFailureResponse("[BUG] Community not found");
+        }
+
+        return worksheetClient.participation(communities.get(0).getName(), id, content);
     }
 }
