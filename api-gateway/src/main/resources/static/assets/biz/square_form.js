@@ -17,7 +17,7 @@ function showCatalog() {
                     $("#community_catalog").append(str)
                 })
             } else {
-                location.href = "/error.html"
+
             }
         }, error: function (err) {
             location.href = "/error.html"
@@ -41,10 +41,10 @@ function submit_apply() {
             },
             success: function (res) {
                 if (res.code === 0) {
-                    alert("社团申请成功，目前正在社联审核中，请耐心等待")
+                    alert("社团申请成功，目前正在社联审核中，请耐心等待");
                     location.href = "/square.html"
                 } else {
-                    location.href = "/error.html"
+                    $("#info").text(res.msg)
                 }
             }, error: function (err) {
                 alert(JSON.stringify(err))

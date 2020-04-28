@@ -30,17 +30,24 @@ public class OfficeController {
 
     @PutMapping("/worksheet")
     public ServerResponse worksheet(@RequestParam("worksheetId") Integer worksheetId,
-                                    @RequestParam("catalog") Integer catalog,
                                     @RequestParam("agree") Integer agree,
                                     String reason) {
         int state = (agree == 1) ? 1 : -1;
         worksheetClient.worksheetState(worksheetId, state, reason);
-        SheetCatalog sheetCatalog = SheetCatalog.valueOf(catalog);
-        Worksheet worksheet = worksheetClient.worksheet(worksheetId).getData();
 
+        if (agree == 0) {
+            return ServerResponse.createSuccessResponse();
+        }
+
+
+        Worksheet worksheet = worksheetClient.worksheet(worksheetId).getData();
+        SheetCatalog sheetCatalog = SheetCatalog.valueOf(worksheet.getCatalog());
 
         switch (sheetCatalog){
             case COMMUNITY_FOUND:
+                if (!JSON.isValid(worksheet.getRemark())) {
+                    return ServerResponse.createFailureResponse("无法获得申请社团信息");
+                }
                 JSONObject object = JSON.parseObject(worksheet.getRemark());
                 return communityClient.community(worksheet.getName(), object.getByte("communityCatalog"), object.getString("description"));
             case COMMUNITY_PARTICIPATION:

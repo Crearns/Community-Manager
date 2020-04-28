@@ -13,6 +13,7 @@ import com.cms.common.vo.news.NewsWindowsVo;
 import com.cms.web.feign.CommunityClient;
 import com.cms.web.feign.OauthClient;
 import com.cms.web.feign.WorksheetClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/community")
+@Slf4j
 public class CommunityController {
 
     @Autowired
@@ -77,6 +79,8 @@ public class CommunityController {
         JSONObject object = new JSONObject();
         object.put("communityCatalog", catalogId);
         object.put("description", description);
+
+        log.info(object.toJSONString());
 
         return worksheetClient.createWorksheet(name, id, content.toString(), 1, object.toJSONString());
     }

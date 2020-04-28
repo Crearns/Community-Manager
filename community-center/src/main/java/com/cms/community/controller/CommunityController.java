@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Creams
@@ -91,6 +92,13 @@ public class CommunityController {
     public ServerResponse community(@RequestParam("name") String name,
                                     @RequestParam("catalog") Byte catalog,
                                     @RequestParam("description") String description) {
+        CommunityQuery communityQuery = new CommunityQuery();
+        communityQuery.setName(name);
+        List<Community> communities = communityService.query(communityQuery);
+        if (!communities.isEmpty()) {
+            return ServerResponse.createFailureResponse(name + "社团已经存在");
+        }
+
         return ServerResponse.createSuccessResponse(communityService.createCommunity(name, catalog, description));
     }
 }

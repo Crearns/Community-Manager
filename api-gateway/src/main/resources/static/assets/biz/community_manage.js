@@ -191,7 +191,7 @@ function showApply() {
                         "<td>"+dateFormat(val.create)+"</td>\n" +
                         "<td>"+dateFormat(val.modified)+"</td>\n" +
                         "<td>"+val.submitName+"</td>\n" +
-                        "<td><a class='btn' onclick='agree("+val.id+", "+val.catalog+")'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+", "+val.catalog+")'>拒绝</a></td>\n" +
+                        "<td><a class='btn' onclick='agree("+val.id+")'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+")'>拒绝</a></td>\n" +
                         "</tr>";
                     $("#applyTable").append(str)
                 })
@@ -201,23 +201,35 @@ function showApply() {
     })
 }
 
-function agree(id, catalog) {
+function agree(id) {
     if (!confirm("此操作无法撤回，确认同意吗？")) {
         return;
     }
 
+    $.ajax({
+        url: "web/office/worksheet",
+        dataType: "json",
+        type: "put",
+        data: {
+
+        }
+    })
 
 
 
 }
 
 
-function disagree(id, catalog) {
+function disagree(id) {
     var name = prompt("请输入拒绝原因");
+
+    if (name == null) return;
 
     if (!confirm("此操作无法撤回，确认拒绝吗？")) {
         return;
     }
+
+
 }
 
 

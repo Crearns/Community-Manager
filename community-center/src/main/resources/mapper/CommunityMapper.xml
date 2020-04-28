@@ -144,11 +144,10 @@
   </update>
 
   <select id="getSquareList" resultType="com.cms.common.vo.community.CommunitySquareVo" resultMap="SquareResultMap">
-    SELECT ct.id, ct.name, catalog_name, ct.history_num, ct.gmt_create, tb_user.real_name as 'president'
+    SELECT ct.id, ct.name, catalog_name, ct.history_num, ct.gmt_create, community_president.real_name as 'president'
     FROM tb_community ct
     LEFT JOIN community_catalog ON ct.catalog_id=community_catalog.id
-    LEFT JOIN user_community ON user_community.community_id=ct.id
-    LEFT JOIN tb_user ON user_community.user_id=tb_user.id AND user_community.community_id=ct.id AND user_community.role_id=1
+    LEFT JOIN (select community_id, real_name from user_community uc, tb_user u where role_id=1 and u.id=uc.user_id) community_president ON community_president.community_id=ct.id
   </select>
 
   <select id="count" resultType="integer">
@@ -157,12 +156,19 @@
 
   <select id="detailsInfo" parameterType="integer" resultType="com.cms.common.vo.community.CommunityDetailsVo" resultMap="DetailsMap">
 	SELECT ct.id, ct.name, cl.catalog_name, ct.history_num, ct.gmt_create, u.real_name as 'president', ct.description as 'description', ucc.member_count
-    FROM tb_community ct
-    LEFT JOIN community_catalog cl ON ct.catalog_id=cl.id
-    LEFT JOIN user_community uc ON uc.community_id=ct.id
-    LEFT JOIN tb_user u ON uc.user_id=u.id AND uc.community_id=ct.id AND uc.role_id=1
-    LEFT JOIN (select community_id, count(*) as member_count from user_community group by community_id) ucc on ucc.community_id=ct.id
-    WHERE ct.id = #{id}
+    FROM
+    tb_community ct,
+    community_catalog cl,
+    user_community uc,tb_user u,
+    (select community_id, count(*) as member_count from user_community group by community_id) ucc
+    where
+    ct.catalog_id=cl.id
+    and uc.community_id=ct.id
+    and u.id=uc.user_id
+    and uc.community_id=ct.id
+    and uc.role_id=1
+    and ucc.community_id=ct.id
+    and ct.id=#{id}
   </select>
 
 
