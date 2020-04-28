@@ -4,6 +4,7 @@ import com.cms.common.entity.Community;
 import com.cms.common.query.CommunityQuery;
 import com.cms.common.util.PageBean;
 import com.cms.common.vo.community.CommunityDetailsVo;
+import com.cms.common.vo.community.CommunityMemberInfoVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.community.dao.CommunityDao;
@@ -73,6 +74,33 @@ public class CommunityServiceImpl implements CommunityService {
         community.setCatalogId(catalogId);
         community.setDescription(description);
         community.setName(name);
-        return communityDao.insertSelective(community);
+        communityDao.insertSelective(community);
+        return community.getId();
     }
+
+    @Override
+    public int addHistoryNum(Integer communityId) {
+        return communityDao.addHistoryNum(communityId);
+    }
+
+    @Override
+    public List<CommunityMemberInfoVo> memberInfo(Integer communityId) {
+        return communityDao.communityMember(communityId);
+    }
+
+    @Override
+    public int roleChange(Integer communityId, Long userId, Integer roleId) {
+        return communityDao.roleChange(communityId, userId, roleId);
+    }
+
+    @Override
+    public int deleteMember(Integer communityId, Long userId) {
+        return communityDao.memberDelete(communityId, userId);
+    }
+
+    @Override
+    public Long candidate(Integer communityId, Long userId) {
+        return communityDao.candidate(communityId, userId);
+    }
+
 }

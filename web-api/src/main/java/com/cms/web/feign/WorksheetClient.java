@@ -45,10 +45,12 @@ public interface WorksheetClient {
                                                    @RequestParam("content") String content);
 
     @PutMapping("/sheet/worksheetState")
-    ServerResponse worksheetState(@RequestParam("worksheetId") Integer worksheetId, @RequestParam("state") Integer state, String remark);
+    ServerResponse worksheetState(@RequestParam("worksheetId") Integer worksheetId, @RequestParam("state") Integer state, @RequestParam("auditId") Long auditId, @RequestParam("remark") String remark);
 
     @GetMapping("sheet/worksheet")
     ServerResponse<Worksheet> worksheet(@RequestParam("id") Integer worksheetId);
 
+    @PutMapping("worksheet")
+    ServerResponse worksheet(@RequestParam("worksheet") Worksheet worksheet);
 
 }

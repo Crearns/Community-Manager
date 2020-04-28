@@ -167,6 +167,9 @@
       <if test="catalog != null">
         `catalog` = #{catalog,jdbcType=INTEGER},
       </if>
+      <if test="remark">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

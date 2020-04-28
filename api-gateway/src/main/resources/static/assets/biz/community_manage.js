@@ -56,7 +56,11 @@ function showCommunityInfo() {
         error: function (err) {
             alert(JSON.stringify(err))
         }
-    })
+    });
+
+    if (role === 1 || role === 2) {
+        showApply();
+    }
 }
 
 function saveDesc() {
@@ -191,7 +195,7 @@ function showApply() {
                         "<td>"+dateFormat(val.create)+"</td>\n" +
                         "<td>"+dateFormat(val.modified)+"</td>\n" +
                         "<td>"+val.submitName+"</td>\n" +
-                        "<td><a class='btn' onclick='agree("+val.id+")'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+")'>拒绝</a></td>\n" +
+                        "<td><a class='btn' onclick='agree("+val.id+", this)'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+")'>拒绝</a></td>\n" +
                         "</tr>";
                     $("#applyTable").append(str)
                 })
@@ -201,7 +205,7 @@ function showApply() {
     })
 }
 
-function agree(id) {
+function agree(id, obj) {
     if (!confirm("此操作无法撤回，确认同意吗？")) {
         return;
     }
@@ -211,30 +215,162 @@ function agree(id) {
         dataType: "json",
         type: "put",
         data: {
-
+            worksheetId: id,
+            auditId: userInfo.id,
+            agree: 1
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert("审核完成");
+                var index = $(obj).parents("tr").index();
+                $(obj).parents("tr").remove();
+            } else {
+                alert("审核过程中出现错误："+res.msg);
+                location.reload();
+            }
+        },error: function (err) {
+            alert("出现未知错误，请通知管理员");
         }
     })
-
-
-
+    
 }
 
 
-function disagree(id) {
-    var name = prompt("请输入拒绝原因");
+function disagree(id, obj) {
+    var reason = prompt("请输入拒绝原因");
 
-    if (name == null) return;
+    if (reason == null) return;
 
     if (!confirm("此操作无法撤回，确认拒绝吗？")) {
         return;
     }
 
-
+    $.ajax({
+        url: "web/office/worksheet",
+        dataType: "json",
+        type: "put",
+        data: {
+            worksheetId: id,
+            auditId: userInfo.id,
+            agree: 0,
+            reason: reason
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert("审核完成");
+                var index = $(obj).parents("tr").index();
+                $(obj).parents("tr").remove();
+            } else {
+                alert("审核过程中出现错误："+res.msg);
+                location.reload();
+            }
+        },error: function (err) {
+            alert("出现未知错误，请通知管理员");
+        }
+    })
 }
 
+function showMember() {
+    const urlParams = new URLSearchParams(window.location.search);
+    var communityId = urlParams.get('id');
+    if (communityId == null) location.href="error.html";
 
+    $.ajax({
+        url: "web/community/communityMember",
+        dataType: "json",
+        type: "get",
+        data: {
+            communityId: communityId
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                $.each(res.data, function (idx, val) {
+                    str = "<tr>\n" +
+                        "<td>"+val.userNum+"</td>\n" +
+                        "<td>"+val.realName+"</td>\n" +
+                        "<td>"+val.grade+"</td>\n" +
+                        "<td>"+val.college+"</td>\n" +
+                        "<td>"+val.major+ val.classNum +"班</td>\n" +
+                        "<td>"+val.roleName+"</td>\n" +
+                        "<td><li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown'><b class='caret'></b></a>\n" +
+                        "<ul class='dropdown-menu'>\n" +
+                        "<li><a onclick='roleChange("+val.userNum+", 2)'>设为部长</a></li>\n" +
+                        "<li><a onclick='roleChange("+val.userNum+", 3)'>设为社员</a></li>\n" +
+                        "<li><a onclick='roleChange("+val.userNum+", 1)'>设为社长</a></li>\n" +
+                        "<li><a onclick='roleChange("+val.userNum+", 4)' style='color: red'>移出社团</a></li>\n" +
+                        "</ul>\n" +
+                        "</li></td>\n" +
+                        "</tr>";
+                    $("#memberTable").append(str);
+                })
+            }
+        }, error: function (err) {
+            alert(JSON.stringify(err))
+        }
+    })
+}
+
+function roleChange(userNum, role) {
+    const urlParams = new URLSearchParams(window.location.search);
+    var communityId = urlParams.get('id');
+
+    if (!confirm("此操作不能撤回，确认执行吗?")) {
+        return;
+    }
+
+    $.ajax({
+        url: "web/community/roleChange",
+        dataType: "json",
+        type: "put",
+        data: {
+            executeId: userInfo.id,
+            userNum: userNum,
+            communityId: communityId,
+            roleId: role
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert("操作成功");
+                location.reload();
+            } else {
+                alert(res.msg);
+            }
+        }, error: function (err) {
+        }
+    })
+}
+
+function quit() {
+    if (!confirm("退出社团操作无法撤回，加入社团需要重新申请，确定要继续吗？")) {
+        return;
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    var communityId = urlParams.get('id');
+
+    $.ajax({
+        url: "/web/community/quit",
+        type: "put",
+        datatype: "json",
+        async: false,
+        data: {
+            communityId: communityId,
+            userId: userInfo.id
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert(res.data)
+            } else {
+                alert(res.msg);
+            }
+            location.href="my_community.html";
+        },
+        error: function (err) {
+
+        }
+    })
+}
 
 showUserInfo();
 showCommunityInfo();
 showWindow();
-showApply();
+showMember();

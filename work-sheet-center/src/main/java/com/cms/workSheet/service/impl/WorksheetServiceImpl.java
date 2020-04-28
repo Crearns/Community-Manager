@@ -30,6 +30,11 @@ public class WorksheetServiceImpl implements WorksheetService {
     }
 
     @Override
+    public int update(Worksheet worksheet) {
+        return worksheetDao.updateByPrimaryKeySelective(worksheet);
+    }
+
+    @Override
     public List<WorksheetInfoVo> communityApply(WorksheetQuery worksheetQuery) {
         return worksheetDao.communitySheet(worksheetQuery);
     }
@@ -45,13 +50,16 @@ public class WorksheetServiceImpl implements WorksheetService {
     }
 
     @Override
-    public int updateWorksheetState(Integer id, Integer state, String remark) {
+    public int updateWorksheetState(Integer id, Integer state, String remark, Long auditId) {
         Worksheet worksheet = Worksheet.builder()
                 .id(id)
                 .state(state)
                 .remark(remark)
+                .auditUserId(auditId)
                 .build();
 
         return worksheetDao.updateByPrimaryKeySelective(worksheet);
     }
+
+
 }

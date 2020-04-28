@@ -26,14 +26,15 @@ function showUserInfo() {
         email = '';
 
 
-    $("#profile").append("<h1><span>"+userInfo.username+"</span></h1><br>");
-    $("#profile").append("<h4><span>"+userInfo.realName+"</span></h4><br>");
-    $("#profile").append("<h4><span>"+ gender +"</span></h4><br>");
-    $("#profile").append("<h4><span>"+userInfo.nickname+"</span></h4><br>");
-    $("#profile").append("<h4><span>大连海事大学</span></h4><br>");
-    $("#profile").append("<h4><span>"+ userInfo.college + " " + userInfo.major + " " + userInfo.grade + "级" + userInfo.major + userInfo.classNum+"班"  +"</span></h4><br>");
-    $("#profile").append("<h4><span>"+ email +"</span></h4><br>");
-    $("#profile").append("<a href='setting.html' class='btn btn-large'><i class='icon-cog'>编辑</a>")
+    $("#profile").append("<h1><span> "+userInfo.username+"</span></h1><br>");
+    $("#profile").append("<h4><span><i class='icon-user'/> "+userInfo.realName+"</span></h4><br>");
+    $("#profile").append("<h4><span><i class='icon-heart'/> "+ gender +"</span></h4><br>");
+    $("#profile").append("<h4><span><i class='icon-paper-clip'/> "+userInfo.nickname+"</span></h4><br>");
+    $("#profile").append("<h4><span><i class='icon-pencil'/> 大连海事大学</span></h4><br>");
+    $("#profile").append("<h4><span><i class='icon-group'/> " + userInfo.college + "</span></h4><br>");
+    $("#profile").append("<h4><span><i class='icon-star'/> "+ userInfo.grade + "级" + userInfo.major + userInfo.classNum+"班" +"</span></h4><br>");
+    $("#profile").append("<h4><span><i class='icon-envelope'/> "+ email +"</span></h4><br>");
+    $("#profile").append("<a href='setting.html' class='btn span2'><i class='icon-cog'>编辑</a>")
 
 
     // $("#profile_realName").text(userInfo.realName);

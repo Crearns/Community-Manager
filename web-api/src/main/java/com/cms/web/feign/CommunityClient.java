@@ -4,6 +4,7 @@ import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Catalog;
 import com.cms.common.entity.Community;
 import com.cms.common.vo.community.CommunityDetailsVo;
+import com.cms.common.vo.community.CommunityMemberInfoVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.common.vo.news.NewsWindowsVo;
@@ -56,15 +57,31 @@ public interface CommunityClient {
     ServerResponse<List<Community>> communityId(@RequestParam("communityId") Integer communityId);
 
     @PostMapping("/community/member")
-    ServerResponse member(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId);
+    ServerResponse member(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId, @RequestParam("roleId") Integer roleId);
 
     @GetMapping("/community/community")
     ServerResponse<List<Community>> community(@RequestParam("name") String name);
 
     @PostMapping("/community/community")
-    ServerResponse community(@RequestParam("name") String name,
+    ServerResponse<Integer> community(@RequestParam("name") String name,
                                     @RequestParam("catalog") Byte catalog,
                                     @RequestParam("description") String description);
 
+    @PutMapping("/community/historyNum")
+    ServerResponse historyNum(@RequestParam("communityId") Integer communityId);
+
+
+    @GetMapping("/community/communityMember")
+    ServerResponse<List<CommunityMemberInfoVo>> communityMember(@RequestParam("communityId") Integer communityId);
+
+
+    @PutMapping("/community/roleChange")
+    ServerResponse roleChange(       @RequestParam("executeId") Long executeId,
+                                     @RequestParam("userNum") Long userNum,
+                                     @RequestParam("communityId") Integer communityId,
+                                     @RequestParam("roleId") Integer roleId);
+
+    @DeleteMapping("/community/quit")
+    ServerResponse quit(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId);
 
 }

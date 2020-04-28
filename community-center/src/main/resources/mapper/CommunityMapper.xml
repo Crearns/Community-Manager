@@ -38,6 +38,15 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="createDate"/>
   </resultMap>
 
+  <resultMap id="MemberInfoMap" type="com.cms.common.vo.community.CommunityMemberInfoVo">
+    <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+    <result column="user_num" jdbcType="BIGINT" property="userNum"/>
+    <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+    <result column="college" jdbcType="VARCHAR" property="college"/>
+    <result column="major" jdbcType="VARCHAR" property="major"/>
+    <result column="classNum" jdbcType="INTEGER" property="classNum"/>
+  </resultMap>
+
 
   <sql id="querySQL">
     <where>
@@ -155,20 +164,12 @@
   </select>
 
   <select id="detailsInfo" parameterType="integer" resultType="com.cms.common.vo.community.CommunityDetailsVo" resultMap="DetailsMap">
-	SELECT ct.id, ct.name, cl.catalog_name, ct.history_num, ct.gmt_create, u.real_name as 'president', ct.description as 'description', ucc.member_count
-    FROM
-    tb_community ct,
-    community_catalog cl,
-    user_community uc,tb_user u,
-    (select community_id, count(*) as member_count from user_community group by community_id) ucc
-    where
-    ct.catalog_id=cl.id
-    and uc.community_id=ct.id
-    and u.id=uc.user_id
-    and uc.community_id=ct.id
-    and uc.role_id=1
-    and ucc.community_id=ct.id
-    and ct.id=#{id}
+	SELECT ct.id, ct.name, catalog_name, ct.history_num, ct.gmt_create, community_president.real_name as 'president', ct.description as 'description', member_count
+    FROM tb_community ct
+    LEFT JOIN community_catalog ON ct.catalog_id=community_catalog.id
+    LEFT JOIN (select community_id, real_name from user_community uc, tb_user u where role_id=1 and u.id=uc.user_id) community_president ON community_president.community_id=ct.id
+	LEFT JOIN (select community_id, count(*) as member_count from user_community group by community_id) ucc on ucc.community_id=ct.id
+    where ct.id=#{id}
   </select>
 
 
@@ -192,4 +193,34 @@
     (user_id, community_id, role_id) values (#{userId}, #{communityId}, #{roleId})
   </insert>
 
+  <update id="addHistoryNum" parameterType="integer">
+    UPDATE tb_community
+    set history_num = history_num + 1
+    WHERE id = #{communityId}
+  </update>
+
+
+  <select id="communityMember" parameterType="integer" resultType="com.cms.common.vo.community.CommunityMemberInfoVo" resultMap="MemberInfoMap">
+    select u.real_name, u.user_num, role_name, u.college, u.grade, u.major, u.classNum
+    from user_community uc, tb_user u, tb_role r
+    where uc.user_id=u.id and uc.community_id = #{communityId} and uc.role_id=r.id order by uc.role_id
+  </select>
+
+  <update id="roleChange">
+    update user_community set
+    role_id = #{roleId}
+    where community_id = #{communityId} and user_id = #{userId}
+  </update>
+
+  <delete id="memberDelete">
+    delete from user_community where user_id = #{userId} and community_id = #{communityId}
+  </delete>
+
+  <select id="candidate" resultType="long">
+    select user_id from user_community
+    where community_id = #{communityId}
+    and user_id != #{userId}
+    order by role_id asc
+    limit 1
+  </select>
 </mapper>

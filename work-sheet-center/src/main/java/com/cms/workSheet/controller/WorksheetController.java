@@ -9,6 +9,7 @@ import com.cms.common.vo.worksheet.WorksheetInfoVo;
 import com.cms.common.vo.worksheet.WorksheetVo;
 import com.cms.workSheet.feign.CommunityClient;
 import com.cms.workSheet.service.WorksheetService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
  */
 
 @RestController
+@Slf4j
 public class WorksheetController {
     @Autowired
     private WorksheetService worksheetService;
@@ -172,8 +174,8 @@ public class WorksheetController {
     }
 
     @PutMapping("/worksheetState")
-    public ServerResponse worksheetState(@RequestParam("worksheetId") Integer worksheetId, @RequestParam("state") Integer state, String remark) {
-        return ServerResponse.createSuccessResponse(worksheetService.updateWorksheetState(worksheetId, state, remark));
+    public ServerResponse worksheetState(@RequestParam("worksheetId") Integer worksheetId, @RequestParam("state") Integer state, @RequestParam("auditId") Long auditId, String remark) {
+        return ServerResponse.createSuccessResponse(worksheetService.updateWorksheetState(worksheetId, state, remark, auditId));
     }
 
     @GetMapping("worksheet")

@@ -7,6 +7,7 @@ import com.cms.common.entity.Community;
 import com.cms.common.entity.User;
 import com.cms.common.entity.Worksheet;
 import com.cms.common.vo.community.CommunityDetailsVo;
+import com.cms.common.vo.community.CommunityMemberInfoVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.common.vo.news.NewsWindowsVo;
@@ -80,7 +81,6 @@ public class CommunityController {
         object.put("communityCatalog", catalogId);
         object.put("description", description);
 
-        log.info(object.toJSONString());
 
         return worksheetClient.createWorksheet(name, id, content.toString(), 1, object.toJSONString());
     }
@@ -132,5 +132,24 @@ public class CommunityController {
         }
 
         return worksheetClient.participation(communities.get(0).getName(), id, content);
+    }
+
+    @GetMapping("communityMember")
+    public ServerResponse<List<CommunityMemberInfoVo>> communityMember(@RequestParam("communityId") Integer communityId) {
+        return communityClient.communityMember(communityId);
+    }
+
+    @PutMapping("/roleChange")
+    public ServerResponse roleChange(@RequestParam("executeId") Long executeId,
+                                     @RequestParam("userNum") Long userNum,
+                                     @RequestParam("communityId") Integer communityId,
+                                     @RequestParam("roleId") Integer roleId) {
+
+        return communityClient.roleChange(executeId, userNum, communityId, roleId);
+    }
+
+    @PutMapping("quit")
+    public ServerResponse quit(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId) {
+        return communityClient.quit(communityId, userId);
     }
 }

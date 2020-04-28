@@ -14,13 +14,15 @@ public interface WorksheetService {
 
     List<Worksheet> query(WorksheetQuery worksheetQuery);
 
+    int update(Worksheet worksheet);
+
     List<WorksheetInfoVo> communityApply(WorksheetQuery worksheetQuery);
 
     List<WorksheetInfoVo> union(WorksheetQuery worksheetQuery);
 
     Integer applyRecord(Integer communityId, Long userId);
 
-    int updateWorksheetState(Integer id, Integer state, String remark);
+    int updateWorksheetState(Integer id, Integer state, String remark, Long auditId);
 
 
 }

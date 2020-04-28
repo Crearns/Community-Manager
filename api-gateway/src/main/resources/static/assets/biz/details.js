@@ -33,7 +33,8 @@ function showDetails() {
                 $("#community_president").val(res.data.president);
                 $("#community_description").val(res.data.description);
             } else if (res.code === 2){
-                location.href = "/error.html"
+                // location.href = "/error.html"
+                alert(JSON.stringify(res))
             }
         },
         error: function (err) {
