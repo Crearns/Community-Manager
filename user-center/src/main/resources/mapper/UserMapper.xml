@@ -71,4 +71,34 @@
     SET session_id = #{sessionID}
     WHERE id = #{id}
   </update>
+
+  <update id="updateCommonInfo" parameterType="com.cms.common.entity.User">
+    UPDATE tb_user SET
+    phone = #{phone},
+    email = #{email},
+    nickname = #{nickname}
+    where id = #{id}
+  </update>
+
+  <update id="updateSelectiveById" parameterType="com.cms.common.entity.User">
+    UPDATE tb_user
+    <set>
+      <if test="password != null">
+        password = #{password},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
 </mapper>

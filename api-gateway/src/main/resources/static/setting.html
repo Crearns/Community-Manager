@@ -79,12 +79,111 @@
 	      <div class="row">
 	      	<div class="span12">
 				<div class="widget-header"> <i class="icon-list-alt"></i>
-					<h3> 个人设置</h3>
+					<h3>个人设置</h3>
 				</div>
 	      		<div id="target-1" class="widget">
 	      			<div class="widget-content">
-			      		<h1>12 Columns</h1>
-			      		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<div class="tabbable">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#formcontrols" data-toggle="tab">个人基本信息设置</a>
+								</li>
+								<li class=""><a href="#window" data-toggle="tab">密码修改</a></li>
+							</ul>
+							<br>
+							<div class="tab-content">
+								<div class="tab-pane active" id="formcontrols">
+									<div class="tab-content span4">
+										<div>
+											<form id="edit-profile" class="form-horizontal">
+												<div class="control-group">
+													<label class="control-label" for="setting_username">用户名:</label>
+													<div class="controls">
+														<input type="text" class="span8 disabled" id="setting_username" value="" disabled="">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_userNum">学号:</label>
+													<div class="controls">
+														<input type="text" class="span8 disabled" id="setting_userNum" value="" disabled="">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_realName">姓名:</label>
+													<div class="controls">
+														<input type="text" class="span8" id="setting_realName" value="" disabled="">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_class">专业班级:</label>
+													<div class="controls">
+														<input type="text" class="span8" id="setting_class" value="" disabled="">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_phone">电话:</label>
+													<div class="controls">
+														<input type="text" class="span8" id="setting_phone">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_email">邮箱:</label>
+													<div class="controls">
+														<input type="text" class="span8" id="setting_email">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_nickname">昵称:</label>
+													<div class="controls">
+														<input  class="span8" id="setting_nickname">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label">操作:</label>
+													<div class="controls" id="control">
+														<a class="btn" onclick="saveInfo()">保存</a>
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+											</form>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane" id="window">
+									<div class="tab-content span4">
+										<div>
+											<form id="edit-password" class="form-horizontal">
+												<div class="control-group">
+													<label class="control-label" for="setting_username">原密码:</label>
+													<div class="controls">
+														<input type="password" class="span8 disabled" id="password_old">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_userNum">新密码:</label>
+													<div class="controls">
+														<input type="password" class="span8 disabled" id="password_new">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label" for="setting_userNum">确认密码:</label>
+													<div class="controls">
+														<input type="password" class="span8 disabled" id="password_confirm">
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+												<div class="control-group">
+													<label class="control-label">操作:</label>
+													<div class="controls">
+														<a class="btn" onclick="passwordChange()">保存</a>
+														<span id="info" style="color: red"></span>
+													</div> <!-- /controls -->
+												</div> <!-- /control-group -->
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 		      		</div> <!-- /widget-content -->
 	      		</div> <!-- /widget -->
       		</div> <!-- /span12 -->
@@ -96,9 +195,11 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="assets/main/js/jquery-1.7.2.min.js"></script>
-
+<script src="assets/biz/token.js"></script>
 <script src="assets/main/js/bootstrap.js"></script>
 <script src="assets/main/js/base.js"></script>
 <script src="assets/biz/common/const.js"></script>
+<script src="assets/biz/setting.js"></script>
+
   </body>
 </html>

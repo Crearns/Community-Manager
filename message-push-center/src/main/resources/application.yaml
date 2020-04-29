@@ -1,0 +1,8 @@
+server:
+  port: 9003
+  servlet:
+    context-path: message
+
+spring:
+  application:
+    name: message-push-service

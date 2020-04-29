@@ -35,5 +35,15 @@ public class UserServiceImpl implements UserService {
         return CollectionUtils.isEmpty(users) ? null : users.get(0);
     }
 
+    @Override
+    public Integer updateCommonInfo(User user) {
+        return userDao.updateCommonInfo(user);
+    }
+
+    @Override
+    public Integer update(User user) {
+        return userDao.updateSelectiveById(user);
+    }
+
 
 }

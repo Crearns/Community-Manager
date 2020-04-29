@@ -18,6 +18,7 @@
         <module>community-center</module>
         <module>web-api</module>
         <module>work-sheet-center</module>
+        <module>message-push-center</module>
     </modules>
 
     <parent>

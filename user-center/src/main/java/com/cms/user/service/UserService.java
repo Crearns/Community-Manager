@@ -13,4 +13,8 @@ public interface UserService{
     List<User> query(UserQuery userQuery);
 
     User selectByUserId(String userId);
+
+    Integer updateCommonInfo(User user);
+
+    Integer update(User user);
 }

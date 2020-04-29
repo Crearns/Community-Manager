@@ -15,4 +15,8 @@ public interface UserDao {
     List<User> query(UserQuery userQuery);
 
     Integer updateUserSessionIdByUserId(@Param("id") Integer id, @Param("sessionId") String sessionId);
+
+    Integer updateCommonInfo(User user);
+
+    Integer updateSelectiveById(User user);
 }
