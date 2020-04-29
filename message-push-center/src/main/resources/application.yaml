@@ -6,3 +6,7 @@ server:
 spring:
   application:
     name: message-push-service
+  data:
+    mongodb:
+      host: 127.0.0.1
+      database: community
