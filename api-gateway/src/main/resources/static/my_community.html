@@ -39,9 +39,7 @@
 							</ul>
 					</li>
 				</ul>
-				<form class="navbar-search pull-right">
-					<input type="text" class="search-query" placeholder="Search">
-				</form>
+
 			</div>
 			<!--/.nav-collapse -->
 		</div>
@@ -56,11 +54,11 @@
 				<li><a href="main.html"><i class="icon-dashboard"></i><span id="test">主页</span> </a> </li>
 				<li class="active"><a href="my_community.html"><i class="icon-group"></i><span>我的社团</span> </a> </li>
 				<li><a href="square.html"><i class="icon-search"></i><span>社团广场</span> </a></li>
-				<li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>我的..</span> <b class="caret"></b></a>
-					<ul class="dropdown-menu">
+				        <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span style="position: relative">我的..<i class="tip" id="tip" style="visibility: hidden"></i></span> <b class="caret"></b></a>
+<ul class="dropdown-menu">
 						<li><a href="apply.html">我的申请</a></li>
 						<li><a href="verify.html">我的审批</a></li>
-						<li><a href="message.html">我的消息</a></li>
+						<li><a href="message.html"><span>我的消息<span id="messageCount" style="color:red;"></span></span></a></li>
 					</ul>
 				</li>
 				<li><a href="setting.html"><i class="icon-cog"></i><span>个人设置</span> </a> </li>
@@ -105,6 +103,7 @@
 <script src="assets/biz/common/const.js"></script>
 <script src="assets/biz/common/DateFormat.js"></script>
 <script src="assets/biz/my_community.js"></script>
+<script src="assets/biz/common/websocket.js"></script>
   </body>
 
 </html>

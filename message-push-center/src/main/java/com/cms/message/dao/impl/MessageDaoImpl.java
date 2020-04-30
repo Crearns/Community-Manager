@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -40,7 +41,33 @@ public class MessageDaoImpl implements MessageDao {
 
     @Override
     public List<Message> findByReceiverId(Long id) {
-        Query query = new Query(Criteria.where("receiveId").is(id));
+        Query query = new Query(Criteria.where("receiverId").is(id));
         return mongoTemplate.find(query, Message.class);
+    }
+
+    @Override
+    public void markRead(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+
+        Update update = new Update();
+        update.set("read", true);
+
+        mongoTemplate.updateFirst(query, update, Message.class);
+    }
+
+    @Override
+    public int unReadCount(Long id) {
+        Query query = new Query(Criteria.where("receiverId").is(id).and("read").is(false));
+        return mongoTemplate.find(query, Message.class).size();
+    }
+
+    @Override
+    public void readAll(Long userId) {
+        Query query = new Query(Criteria.where("receiverId").is(userId));
+
+        Update update = new Update();
+        update.set("read", true);
+
+        mongoTemplate.updateMulti(query, update, Message.class);
     }
 }

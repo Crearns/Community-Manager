@@ -1,12 +1,21 @@
 server:
   port: 9003
   servlet:
-    context-path: message
+    context-path: /message
 
 spring:
   application:
     name: message-push-service
   data:
     mongodb:
-      host: 127.0.0.1
+      host: 127.0.0.1:27017
       database: community
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    fetch-registry: true
+
+
+

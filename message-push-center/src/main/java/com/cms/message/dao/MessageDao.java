@@ -11,11 +11,15 @@ public interface MessageDao {
 
     void save(Message message);
 
-//    void update(Message message);
-
     List<Message> findAll();
 
     void delete(Integer id);
 
     List<Message> findByReceiverId(Long id);
+
+    void markRead(String id);
+
+    int unReadCount(Long id);
+
+    void readAll(Long userId);
 }

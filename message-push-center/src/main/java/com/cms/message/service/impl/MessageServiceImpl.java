@@ -23,12 +23,22 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void readMark(Long id) {
-
+    public void readMark(String id) {
+        messageDao.markRead(id);
     }
 
     @Override
     public void saveMessage(Message message) {
+        messageDao.save(message);
+    }
 
+    @Override
+    public Integer getUnReadCount(Long id) {
+        return messageDao.unReadCount(id);
+    }
+
+    @Override
+    public void readAll(Long id) {
+        messageDao.readAll(id);
     }
 }

@@ -10,10 +10,10 @@ import java.util.Date;
 
 @Data
 public class Message {
-    private Long id;
+    private String id;
     private Date gmtCreate;
     private Long receiverId;
     private String title;
     private String content;
-    private Boolean read;
+    private Boolean read = false;
 }

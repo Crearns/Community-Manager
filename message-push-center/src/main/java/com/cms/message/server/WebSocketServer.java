@@ -11,22 +11,31 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import com.alibaba.fastjson.JSON;
+import com.cms.common.common.ServerResponse;
+import com.cms.message.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-@ServerEndpoint("/websocket/{userId}")
+@ServerEndpoint("/webSocket/{userId}")
 public class WebSocketServer {
+    private static ApplicationContext applicationContext;
 
     private Session session;
 
     private static CopyOnWriteArraySet<WebSocketServer> webSockets =new CopyOnWriteArraySet<>();
-    private static Map<String,Session> sessionPool = new HashMap<String,Session>();
+    private static Map<Long,Session> sessionPool = new HashMap<Long,Session>();
+
 
     @OnOpen
-    public void onOpen(Session session, @PathParam(value="userId")String userName) {
+    public void onOpen(Session session, @PathParam(value="userId")Long userId) {
+        MessageService messageService = applicationContext.getBean(MessageService.class);
         this.session = session;
         webSockets.add(this);
-        sessionPool.put(userName, session);
+        sessionPool.put(userId, session);
+        session.getAsyncRemote().sendText(JSON.toJSONString(ServerResponse.createSuccessResponse(messageService.getUnReadCount(userId))));
     }
 
     @OnClose
@@ -48,8 +57,8 @@ public class WebSocketServer {
         }
     }
 
-    public void sendOneMessage(String userName, String message) {
-        Session session = sessionPool.get(userName);
+    public void sendOneMessage(Long userId, String message) {
+        Session session = sessionPool.get(userId);
         if (session != null) {
             try {
                 session.getAsyncRemote().sendText(message);
@@ -57,6 +66,10 @@ public class WebSocketServer {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void setApplicationContext(ApplicationContext context) {
+        applicationContext = context;
     }
 
 }
