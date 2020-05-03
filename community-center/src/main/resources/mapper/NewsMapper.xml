@@ -128,7 +128,7 @@
   </update>
   
   <select id="selectAllNews" resultType="com.cms.common.vo.news.NewsWindowsVo" resultMap="Window">
-    SELECT n.gmt_create, n.gmt_modified, title, real_name, content
+    SELECT n.id, n.gmt_create, n.gmt_modified, title, real_name, content
     FROM tb_news n, tb_user u
     WHERE n.author_id=u.id AND n.community_id=#{communityId}
     <if test="visible == 1">
@@ -136,4 +136,6 @@
     </if>
     ORDER BY n.gmt_modified DESC
   </select>
+
+
 </mapper>

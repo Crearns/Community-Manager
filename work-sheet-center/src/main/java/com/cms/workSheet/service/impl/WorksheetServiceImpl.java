@@ -2,9 +2,12 @@ package com.cms.workSheet.service.impl;
 
 import com.cms.common.entity.Worksheet;
 import com.cms.common.query.WorksheetQuery;
+import com.cms.common.util.PageBean;
 import com.cms.common.vo.worksheet.WorksheetInfoVo;
 import com.cms.workSheet.dao.WorksheetDao;
 import com.cms.workSheet.service.WorksheetService;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.List;
  */
 
 @Service
+@Slf4j
 public class WorksheetServiceImpl implements WorksheetService {
     @Autowired
     private WorksheetDao worksheetDao;
@@ -30,6 +34,16 @@ public class WorksheetServiceImpl implements WorksheetService {
     }
 
     @Override
+    public List<Worksheet> queryPage(WorksheetQuery worksheetQuery, int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Worksheet> list = worksheetDao.query(worksheetQuery);
+        int count = list.size();
+        PageBean<Worksheet> pageData = new PageBean<>(currentPage, pageSize, count);
+        pageData.setItems(list);
+        return pageData.getItems();
+    }
+
+    @Override
     public int update(Worksheet worksheet) {
         return worksheetDao.updateByPrimaryKeySelective(worksheet);
     }
@@ -37,6 +51,16 @@ public class WorksheetServiceImpl implements WorksheetService {
     @Override
     public List<WorksheetInfoVo> communityApply(WorksheetQuery worksheetQuery) {
         return worksheetDao.communitySheet(worksheetQuery);
+    }
+
+    @Override
+    public PageBean<WorksheetInfoVo> communityApplyPage(WorksheetQuery worksheetQuery, int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<WorksheetInfoVo> list = worksheetDao.communitySheet(worksheetQuery);
+        int count = worksheetDao.communitySheetCount(worksheetQuery);
+        PageBean<WorksheetInfoVo> pageData = new PageBean<>(currentPage, pageSize, count);
+        pageData.setItems(list);
+        return pageData;
     }
 
     @Override

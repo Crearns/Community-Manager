@@ -19,4 +19,8 @@ public interface MessageService {
 
     void readAll(Long id);
 
+    void delete(String messageId);
+
+    List<Message> findMessageByRecIdPage(Long id, Integer page, Integer pageSize);
+
 }

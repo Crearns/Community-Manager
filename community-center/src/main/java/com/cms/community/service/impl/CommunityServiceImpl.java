@@ -25,14 +25,13 @@ public class CommunityServiceImpl implements CommunityService {
     private CommunityDao communityDao;
 
     @Override
-    public List<CommunitySquareVo> getSquareList(int currentPage, int pageSize) {
+    public PageBean<CommunitySquareVo> getSquareList(int currentPage, int pageSize) {
         PageHelper.startPage(currentPage, pageSize);
-
         List<CommunitySquareVo> squareList = communityDao.getSquareList();
-        int count = squareList.size();
+        int count = communityDao.count();
         PageBean<CommunitySquareVo> pageData = new PageBean<>(currentPage, pageSize, count);
         pageData.setItems(squareList);
-        return pageData.getItems();
+        return pageData;
     }
 
     @Override
@@ -102,5 +101,26 @@ public class CommunityServiceImpl implements CommunityService {
     public Long candidate(Integer communityId, Long userId) {
         return communityDao.candidate(communityId, userId);
     }
+
+    @Override
+    public List<Long> getManagerId(Integer communityId) {
+        return communityDao.managerId(communityId);
+    }
+
+    @Override
+    public List<Long> getAllMemberId(Integer communityId) {
+        return communityDao.allMemberId(communityId);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Integer communityId) {
+        return communityDao.deleteByPrimaryKey(communityId);
+    }
+
+    @Override
+    public int memberCount(Integer communityId) {
+        return communityDao.memberCount(communityId);
+    }
+
 
 }

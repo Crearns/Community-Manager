@@ -27,7 +27,7 @@ public interface CommunityDao {
 
     List<CommunitySquareVo> getSquareList();
 
-    int count();
+    Integer count();
 
     CommunityDetailsVo detailsInfo(Integer id);
 
@@ -48,4 +48,10 @@ public interface CommunityDao {
     int memberDelete(@Param("communityId") Integer communityId, @Param("userId") Long userId);
 
     Long candidate(@Param("communityId") Integer communityId, @Param("userId") Long userId);
+
+    List<Long> managerId(Integer communityId);
+
+    List<Long> allMemberId(Integer communityId);
+
+    Integer memberCount(@Param("communityId") Integer communityId);
 }

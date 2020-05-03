@@ -21,7 +21,7 @@ import java.util.List;
 @FeignClient("community-service")
 public interface CommunityClient {
 
-    @GetMapping(value = "/community/squareList")
+    @GetMapping("/community/squareList")
     ServerResponse<List<CommunitySquareVo>> squareList(int currentPage);
 
     @GetMapping("/community/communityDetails")
@@ -83,5 +83,14 @@ public interface CommunityClient {
 
     @DeleteMapping("/community/quit")
     ServerResponse quit(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId);
+
+    @GetMapping("/community/manager")
+    ServerResponse<List<Long>> manager(@RequestParam("communityId") Integer communityId);
+
+    @DeleteMapping("/community/news/news")
+    ServerResponse deleteNews(@RequestParam("newsId") Integer newsId, @RequestParam("userId") Long userId);
+
+    @DeleteMapping("/community/community")
+    ServerResponse logoutCommunity(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId);
 
 }

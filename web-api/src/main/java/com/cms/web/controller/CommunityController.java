@@ -4,19 +4,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Catalog;
 import com.cms.common.entity.Community;
-import com.cms.common.entity.User;
 import com.cms.common.entity.Worksheet;
+import com.cms.common.util.MessageGenerator;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunityMemberInfoVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
 import com.cms.common.vo.news.NewsWindowsVo;
 import com.cms.web.feign.CommunityClient;
-import com.cms.web.feign.OauthClient;
+import com.cms.web.feign.MessageClient;
 import com.cms.web.feign.WorksheetClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +33,9 @@ public class CommunityController {
 
     @Autowired
     private WorksheetClient worksheetClient;
+
+    @Autowired
+    private MessageClient messageClient;
 
 
     @GetMapping("/squareList")
@@ -81,8 +83,14 @@ public class CommunityController {
         object.put("communityCatalog", catalogId);
         object.put("description", description);
 
+        ServerResponse<Worksheet> response = worksheetClient.createWorksheet(name, id, content.toString(), 1, object.toJSONString());
+        if (response.getCode() != 0) {
+            return response;
+        }
 
-        return worksheetClient.createWorksheet(name, id, content.toString(), 1, object.toJSONString());
+        List<Long> managerList = communityClient.manager(1).getData();
+        messageClient.sendAll(managerList, MessageGenerator.VERIFY_TITLE, MessageGenerator.verifyContent("大连海事大学社团联合协会"));
+        return ServerResponse.createSuccessResponse();
     }
 
     @GetMapping("/memberShip")
@@ -131,7 +139,15 @@ public class CommunityController {
             return ServerResponse.createFailureResponse("[BUG] Community not found");
         }
 
-        return worksheetClient.participation(communities.get(0).getName(), id, content);
+        ServerResponse serverResponse = worksheetClient.participation(communities.get(0).getName(), id, content);
+        if (serverResponse.getCode() != 0) {
+            return serverResponse;
+        }
+
+        List<Long> managerList = communityClient.manager(communityId).getData();
+
+        messageClient.sendAll(managerList, MessageGenerator.VERIFY_TITLE, MessageGenerator.verifyContent(communities.get(0).getName()));
+        return ServerResponse.createSuccessResponse();
     }
 
     @GetMapping("communityMember")
@@ -151,5 +167,15 @@ public class CommunityController {
     @PutMapping("quit")
     public ServerResponse quit(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId) {
         return communityClient.quit(communityId, userId);
+    }
+
+    @PutMapping("/news/")
+    public ServerResponse delete(@RequestParam("newsId") Integer newsId, @RequestParam("userId") Long userId) {
+        return communityClient.deleteNews(newsId, userId);
+    }
+
+    @PutMapping("community")
+    public ServerResponse logoutCommunity(@RequestParam("userId") Long userId, @RequestParam("communityId") Integer communityId) {
+        return communityClient.logoutCommunity(communityId, userId);
     }
 }

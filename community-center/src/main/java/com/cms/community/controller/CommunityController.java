@@ -5,20 +5,22 @@ import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Community;
 import com.cms.common.entity.User;
 import com.cms.common.query.CommunityQuery;
+import com.cms.common.util.MessageGenerator;
+import com.cms.common.util.PageBean;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunityMemberInfoVo;
 import com.cms.common.vo.community.CommunitySquareVo;
 import com.cms.common.vo.community.MyCommunityVo;
+import com.cms.community.feign.MessageClient;
 import com.cms.community.feign.UserClient;
 import com.cms.community.service.CommunityService;
+import com.cms.community.service.NewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Queue;
 
 /**
  * @author Creams
@@ -32,11 +34,15 @@ public class CommunityController {
     private CommunityService communityService;
 
     @Autowired
+    private MessageClient messageClient;
+
+    @Autowired
     private UserClient userClient;
 
     @GetMapping("/squareList")
     public ServerResponse<List<CommunitySquareVo>> squareList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
-        return ServerResponse.createSuccessResponse(communityService.getSquareList(currentPage, 20));
+        PageBean<CommunitySquareVo> pageBean = communityService.getSquareList(currentPage, 20);
+        return ServerResponse.createSuccessResponse(pageBean.getItems(), pageBean.getTotalPage().toString());
     }
 
     @GetMapping("/communityDetails")
@@ -93,7 +99,17 @@ public class CommunityController {
 
     @PostMapping("/member")
     public ServerResponse member(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId, @RequestParam("roleId") Integer roleId) {
-        return ServerResponse.createSuccessResponse(communityService.member(userId, communityId, roleId));
+        CommunityQuery communityQuery = new CommunityQuery();
+        communityQuery.setId(communityId);
+        Community community = communityService.query(communityQuery).get(0);
+
+        if (community == null) {
+            log.error("[BUG] Community not found, id:{}", communityId);
+            return ServerResponse.createFailureResponse(ResponseCode.NULL);
+        }
+        communityService.member(userId, communityId, roleId);
+        messageClient.send(userId, MessageGenerator.MEMBERSHIP_TITLE, MessageGenerator.membershipContent(community.getName(), "我的社团")); // todo
+        return ServerResponse.createSuccessResponse();
     }
 
     @PostMapping("/community")
@@ -130,7 +146,8 @@ public class CommunityController {
         User user = userClient.userNum(userNum).getData();
 
         if (user == null) {
-            return ServerResponse.createFailureResponse("[BUG] 找不到此用户");
+            log.error("[BUG] User not found, user number:{}", userNum);
+            return ServerResponse.createFailureResponse("找不到此用户");
         }
 
         if (executeId.equals(user.getId())) {
@@ -160,6 +177,14 @@ public class CommunityController {
             return ServerResponse.createSuccessResponse();
         }
 
+        CommunityQuery query = new CommunityQuery();
+        query.setId(communityId);
+        Community community = communityService.query(query).get(0);
+
+        if (community == null) {
+            return ServerResponse.createFailureResponse("找不到指定社团");
+        }
+
         if (roleId == 1) {
             if (executorRole != 1) {
                 return ServerResponse.createFailureResponse("您无权进行此操作");
@@ -167,9 +192,11 @@ public class CommunityController {
 
             communityService.roleChange(communityId, user.getId(), roleId);
             communityService.roleChange(communityId, executeId, 2);
-
+            messageClient.send(user.getId(), MessageGenerator.MEMBERSHIP_TITLE, MessageGenerator.membershipContent(community.getName(), "我的社团"));
+            messageClient.send(executor.getId(), MessageGenerator.MEMBERSHIP_TITLE, MessageGenerator.membershipContent(community.getName(), "我的社团"));
             return ServerResponse.createSuccessResponse();
         } else {
+            messageClient.send(user.getId(), MessageGenerator.MEMBERSHIP_TITLE, MessageGenerator.membershipContent(community.getName(), "我的社团"));
             return ServerResponse.createSuccessResponse(communityService.roleChange(communityId, user.getId(), roleId));
         }
     }
@@ -204,5 +231,40 @@ public class CommunityController {
             communityService.deleteMember(communityId, userId);
             return ServerResponse.createSuccessResponse("您已成功退出，后会有期");
         }
+    }
+
+    @GetMapping("manager")
+    public ServerResponse<List<Long>> manager(@RequestParam("communityId") Integer communityId) {
+        return ServerResponse.createSuccessResponse(communityService.getManagerId(communityId));
+    }
+
+    @GetMapping("allMember")
+    public ServerResponse<List<Long>> allMember(@RequestParam("communityId") Integer communityId) {
+        return ServerResponse.createSuccessResponse(communityService.getAllMemberId(communityId));
+    }
+
+    @DeleteMapping("community")
+    public ServerResponse logoutCommunity(@RequestParam("communityId") Integer communityId, @RequestParam("userId") Long userId) {
+        Integer role = communityService.memberShip(userId, communityId);
+
+        if (role == null || role != 1) {
+            return ServerResponse.createFailureResponse("你无权进行此操作");
+        }
+
+        int memberCount = communityService.memberCount(communityId);
+
+        if (memberCount == 0) {
+            log.error("community id : {} not found", communityId);
+            return ServerResponse.createFailureResponse("未找到该社团，请通知管理员");
+        }
+
+        if (memberCount > 1) {
+            return ServerResponse.createFailureResponse("社团仍有其他成员，不能注销，可直接退出社团");
+        }
+
+        communityService.deleteMember(communityId, userId);
+        communityService.deleteByPrimaryKey(communityId);
+
+        return ServerResponse.createSuccessResponse();
     }
 }

@@ -20,13 +20,13 @@ public class WorksheetController {
     private WorksheetClient worksheetClient;
 
     @GetMapping("/worksheetInfo")
-    public ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id) {
-        return worksheetClient.worksheetInfo(id);
+    public ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id, @RequestParam("currentPage") Integer currentPage) {
+        return worksheetClient.worksheetInfo(id, currentPage);
     }
 
     @GetMapping("/verifyInfo")
-    public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id) {
-        return worksheetClient.verifyInfo(id);
+    public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id, @RequestParam("currentPage") Integer currentPage) {
+        return worksheetClient.verifyInfo(id, currentPage);
     }
 
     @GetMapping("/communityVerifyList")

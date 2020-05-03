@@ -160,7 +160,7 @@
   </select>
 
   <select id="count" resultType="integer">
-    SELECT count(*) FROM <include refid="table_name"></include>
+    SELECT count(*) FROM <include refid="table_name"/>
   </select>
 
   <select id="detailsInfo" parameterType="integer" resultType="com.cms.common.vo.community.CommunityDetailsVo" resultMap="DetailsMap">
@@ -222,5 +222,20 @@
     and user_id != #{userId}
     order by role_id asc
     limit 1
+  </select>
+
+  <select id="managerId" parameterType="integer" resultType="long">
+    SELECT user_id from user_community
+    where community_id = #{communityId}
+    and role_id = 1 or role_id = 2
+  </select>
+
+  <select id="allMemberId" parameterType="integer" resultType="long">
+    select user_id from user_community
+    where community_id = #{communityId}
+  </select>
+
+  <select id="memberCount" resultType="integer">
+    select count(*) from user_community where community_id=#{communityId}
   </select>
 </mapper>

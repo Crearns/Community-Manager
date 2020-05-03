@@ -13,7 +13,7 @@ public interface MessageDao {
 
     List<Message> findAll();
 
-    void delete(Integer id);
+    void delete(String id);
 
     List<Message> findByReceiverId(Long id);
 

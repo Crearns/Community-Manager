@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Data
 public class NewsWindowsVo {
+    private Integer id;
     private String title;
     private Date gmtCreate;
     private Date gmtModified;

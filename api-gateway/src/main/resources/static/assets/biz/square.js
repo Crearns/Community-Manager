@@ -32,6 +32,7 @@ function showSquareList() {
                         "\t</tr>";
                     $("#squareList").append(str);
                 });
+                showPageInfo(res.msg, page);
             }
         },
         error: function (err) {
@@ -39,5 +40,28 @@ function showSquareList() {
         }
     })
 }
+
+function showPageInfo(page, currentPage) {
+    page = parseInt(page);
+    currentPage = parseInt(currentPage);
+
+    if (currentPage > 1 && currentPage <= page) {
+        pre = "<a href='square.html?page="+(currentPage-1)+"'>上一页</a>"
+    } else {
+        pre = ""
+    }
+
+    if (currentPage >= page || currentPage <= 0) {
+        next = ""
+    } else {
+        next = "<a href='square.html?page="+(currentPage+1)+"'>下一页</a>"
+    }
+
+    $("#page-span").append("<a href='square.html'>首页</a>");
+    $("#page-span").append(pre+" 第"+currentPage+"页，共"+page+"页 "+next);
+    $("#page-span").append("<a href='square.html?page="+page+"'>尾页</a>");
+}
+
+
 showUserInfo();
 showSquareList();

@@ -31,4 +31,6 @@ public interface WorksheetDao {
     List<WorksheetInfoVo> union(WorksheetQuery worksheetQuery);
 
     Integer applyRecord(@Param("communityId") Integer communityId, @Param("userId") Long userId);
+
+    Integer communitySheetCount(WorksheetQuery worksheetQuery);
 }

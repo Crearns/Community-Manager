@@ -1,7 +1,6 @@
-package com.cms.web.feign;
+package com.cms.community.feign;
 
 import com.cms.common.common.ServerResponse;
-import com.cms.common.entity.Community;
 import com.cms.common.entity.Worksheet;
 import com.cms.common.vo.worksheet.WorksheetVo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,10 +27,10 @@ public interface WorksheetClient {
 
 
     @GetMapping("sheet/worksheetInfo")
-    ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id, @RequestParam("currentPage") Integer currentPage);
+    ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id);
 
     @GetMapping("sheet/verifyInfo")
-    ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id, @RequestParam("currentPage") Integer currentPage);
+    ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id);
 
     @GetMapping("sheet/communityVerifyList")
     ServerResponse<List<WorksheetVo>> communityVerify(@RequestParam("communityId") Integer communityId);
@@ -41,8 +40,8 @@ public interface WorksheetClient {
 
     @PostMapping("sheet/worksheetParticipation")
     ServerResponse<Worksheet> participation(@RequestParam("name") String name,
-                                                   @RequestParam("submitId") Long submitId,
-                                                   @RequestParam("content") String content);
+                                            @RequestParam("submitId") Long submitId,
+                                            @RequestParam("content") String content);
 
     @PutMapping("/sheet/worksheetState")
     ServerResponse worksheetState(@RequestParam("worksheetId") Integer worksheetId, @RequestParam("state") Integer state, @RequestParam("auditId") Long auditId, @RequestParam("remark") String remark);

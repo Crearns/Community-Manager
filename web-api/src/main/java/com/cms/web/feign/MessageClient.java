@@ -3,9 +3,7 @@ package com.cms.web.feign;
 import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Message;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +19,17 @@ public interface MessageClient {
 
     @PutMapping("/message/allReadMark")
     ServerResponse readAll(@RequestParam("userId") Long userId);
+
+    @PostMapping("/message/message")
+    ServerResponse<Message> send(@RequestParam("receiveId") Long receiveId,
+                                 @RequestParam("title") String title,
+                                 @RequestParam("content") String content);
+
+    @PostMapping("/message/messageAll")
+    ServerResponse sendAll(@RequestParam("receiveIds") List<Long> receiveIds,
+                                  @RequestParam("title") String title,
+                                  @RequestParam("content") String content);
+
+    @DeleteMapping("/message/message")
+    ServerResponse deleteMessage(@RequestParam("messageId") String messageId);
 }

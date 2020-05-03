@@ -60,9 +60,6 @@ public class UserController {
             return ServerResponse.createFailureResponse("找不到当前用户");
         }
 
-        log.info(user.getPassword());
-        log.info(passwordEncoder.encode(passwordOld));
-
         if (!passwordEncoder.matches(passwordOld, user.getPassword())) {
             return ServerResponse.createFailureResponse("密码错误，请确认后重试");
         }

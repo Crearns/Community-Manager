@@ -59,7 +59,7 @@ public class WebSocketServer {
 
     public void sendOneMessage(Long userId, String message) {
         Session session = sessionPool.get(userId);
-        if (session != null) {
+        if (session != null && session.isOpen()) {
             try {
                 session.getAsyncRemote().sendText(message);
             } catch (Exception e) {

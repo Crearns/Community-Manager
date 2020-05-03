@@ -7,7 +7,9 @@ import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Community;
 import com.cms.common.entity.SheetCatalog;
 import com.cms.common.entity.Worksheet;
+import com.cms.common.util.MessageGenerator;
 import com.cms.web.feign.CommunityClient;
+import com.cms.web.feign.MessageClient;
 import com.cms.web.feign.WorksheetClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class OfficeController {
     @Autowired
     private CommunityClient communityClient;
 
+    @Autowired
+    private MessageClient messageClient;
+
     @PutMapping("/worksheet")
     public ServerResponse worksheet(@RequestParam("worksheetId") Integer worksheetId,
                                     @RequestParam("agree") Integer agree,
@@ -37,14 +42,19 @@ public class OfficeController {
                                     String reason) {
         int state = (agree == 1) ? 1 : -1;
 
+        Worksheet worksheet = worksheetClient.worksheet(worksheetId).getData();
+        SheetCatalog sheetCatalog = SheetCatalog.valueOf(worksheet.getCatalog());
+
         if (agree == 0) {
             worksheetClient.worksheetState(worksheetId, state, auditId, reason);
+            messageClient.send(worksheet.getSubmitUserId(),
+                    MessageGenerator.applyTitle(sheetCatalog),
+                    MessageGenerator.applyContent(sheetCatalog,
+                            "申请失败", worksheet.getName(),
+                            "我的申请"));
             return ServerResponse.createSuccessResponse();
         }
 
-
-        Worksheet worksheet = worksheetClient.worksheet(worksheetId).getData();
-        SheetCatalog sheetCatalog = SheetCatalog.valueOf(worksheet.getCatalog());
 
         switch (sheetCatalog){
             case COMMUNITY_FOUND:
@@ -54,7 +64,8 @@ public class OfficeController {
                 JSONObject object = JSON.parseObject(worksheet.getRemark());
                 worksheetClient.worksheetState(worksheetId, state, auditId, "成功");
                 int communityId = communityClient.community(worksheet.getName(), object.getByte("communityCatalog"), object.getString("description")).getData();
-                return communityClient.member(communityId, worksheet.getSubmitUserId(), 1);
+                communityClient.member(communityId, worksheet.getSubmitUserId(), 1);
+                break;
             case COMMUNITY_PARTICIPATION:
                 Community community = communityClient.community(worksheet.getName()).getData().get(0);
                 if (community == null) {
@@ -62,12 +73,22 @@ public class OfficeController {
                 }
                 worksheetClient.worksheetState(worksheetId, state, auditId, "成功");
                 communityClient.historyNum(community.getId());
-                return communityClient.member(community.getId(), worksheet.getSubmitUserId(), 3);
+                communityClient.member(community.getId(), worksheet.getSubmitUserId(), 3);
+                break;
             case COMMUNITY_ACTIVITY_APPLY:
             case COMMUNITY_CANCEL:
             case UNKNOWN:
             default:
                 return ServerResponse.createFailureResponse(ResponseCode.NO_PERMISSION);
         }
+
+
+        messageClient.send(worksheet.getSubmitUserId(),
+                MessageGenerator.applyTitle(sheetCatalog),
+                MessageGenerator.applyContent(sheetCatalog,
+                        "申请成功", worksheet.getName(),
+                        "我的申请"));
+
+        return ServerResponse.createSuccessResponse();
     }
 }

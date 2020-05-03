@@ -3,6 +3,7 @@ package com.cms.message.dao.impl;
 import com.cms.common.entity.Message;
 import com.cms.message.dao.MessageDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -32,7 +33,7 @@ public class MessageDaoImpl implements MessageDao {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(String id) {
         Message message = mongoTemplate.findById(id, Message.class);
         if (message != null) {
             mongoTemplate.remove(message);
@@ -41,8 +42,9 @@ public class MessageDaoImpl implements MessageDao {
 
     @Override
     public List<Message> findByReceiverId(Long id) {
+        Sort sort = new Sort(Sort.Direction.DESC, "gmtCreate");
         Query query = new Query(Criteria.where("receiverId").is(id));
-        return mongoTemplate.find(query, Message.class);
+        return mongoTemplate.find(query.with(sort), Message.class);
     }
 
     @Override

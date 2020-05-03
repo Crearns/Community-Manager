@@ -5,9 +5,11 @@ import com.cms.common.common.ServerResponse;
 import com.cms.common.entity.Community;
 import com.cms.common.entity.Worksheet;
 import com.cms.common.query.WorksheetQuery;
+import com.cms.common.util.PageBean;
 import com.cms.common.vo.worksheet.WorksheetInfoVo;
 import com.cms.common.vo.worksheet.WorksheetVo;
 import com.cms.workSheet.feign.CommunityClient;
+import com.cms.workSheet.feign.MessageClient;
 import com.cms.workSheet.service.WorksheetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class WorksheetController {
 
     @Autowired
     private CommunityClient communityClient;
+
+    @Autowired
+    private MessageClient messageClient;
 
     @PostMapping("/worksheetCommunity")
     public ServerResponse<Worksheet> createWorksheet(@RequestParam("name") String name,
@@ -74,11 +79,12 @@ public class WorksheetController {
 
 
     @GetMapping("/worksheetInfo")
-    public ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id) {
+    public ServerResponse<List<WorksheetVo>> worksheetInfo(@RequestParam("id") Long id, @RequestParam("currentPage") Integer currentPage) {
         WorksheetQuery worksheetQuery = WorksheetQuery.builder()
                 .submitUserId(id)
                 .build();
-        List<WorksheetInfoVo> worksheets = worksheetService.communityApply(worksheetQuery);
+        PageBean<WorksheetInfoVo> pageBean = worksheetService.communityApplyPage(worksheetQuery, currentPage, 20);
+        List<WorksheetInfoVo> worksheets = pageBean.getItems();
 
         List<WorksheetVo> res = new ArrayList<>();
 
@@ -87,15 +93,17 @@ public class WorksheetController {
             res.add(worksheetVo);
         }
 
-        return ServerResponse.createSuccessResponse(res);
+        return ServerResponse.createSuccessResponse(res, pageBean.getTotalPage().toString());
     }
 
     @GetMapping("/verifyInfo")
-    public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id) {
+    public ServerResponse<List<WorksheetVo>> verifyInfo(@RequestParam("id") Long id, @RequestParam("currentPage") Integer currentPage) {
         WorksheetQuery worksheetQuery = WorksheetQuery.builder()
                 .auditUserId(id)
                 .build();
-        List<WorksheetInfoVo> worksheets = worksheetService.communityApply(worksheetQuery);
+
+        PageBean<WorksheetInfoVo> pageBean = worksheetService.communityApplyPage(worksheetQuery, currentPage, 20);
+        List<WorksheetInfoVo> worksheets = pageBean.getItems();
 
         List<WorksheetVo> res = new ArrayList<>();
 
@@ -104,7 +112,7 @@ public class WorksheetController {
             res.add(worksheetVo);
         }
 
-        return ServerResponse.createSuccessResponse(res);
+        return ServerResponse.createSuccessResponse(res, pageBean.getTotalPage().toString());
     }
 
     @GetMapping("/communityVerifyList")
@@ -114,8 +122,6 @@ public class WorksheetController {
         if (communities.isEmpty()) {
             return ServerResponse.createFailureResponse(ResponseCode.NULL);
         }
-
-        // select s.gmt_create, s.content, u.real_name from tb_worksheet s, tb_user u where state = 0 and name = "海风学社" and catalog = 3 and state = 0 and u.id=s.submit_user_id
 
         WorksheetQuery worksheetQuery = WorksheetQuery.builder()
                 .name(communities.get(0).getName())
@@ -186,4 +192,7 @@ public class WorksheetController {
         List<Worksheet> worksheets = worksheetService.query(worksheetQuery);
         return ServerResponse.createSuccessResponse(worksheets.get(0));
     }
+
+
+
 }

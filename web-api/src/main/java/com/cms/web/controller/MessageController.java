@@ -30,4 +30,10 @@ public class MessageController {
         messageClient.readAll(userId);
         return ServerResponse.createSuccessResponse();
     }
+
+    @PutMapping("/message")
+    public ServerResponse removeMsg(@RequestParam("messageId") String messageId) {
+        return messageClient.deleteMessage(messageId);
+    }
+
 }

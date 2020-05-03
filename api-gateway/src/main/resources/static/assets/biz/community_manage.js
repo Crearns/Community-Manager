@@ -154,6 +154,7 @@ function showWindow() {
                         "<h3><a href='newsDetails.html?content="+detailsJSON+"'>"+val.title+"</a></h3>\n" +
                         "<h4>发表时间： "+dateFormat(val.gmtCreate)+" 最后编辑时间： "+dateFormat(val.gmtModified)+"</h4>\n" +
                         "<h4>作者："+val.author+"</h4>\n" +
+                        "<h4><a style='color: #e33e33' onclick='deleteNew("+val.id+", this)'>删除</a></h4>" +
                         "</td>\n" +
                         "</tr>";
 
@@ -165,6 +166,33 @@ function showWindow() {
         }
     })
 }
+
+function deleteNew(id, obj) {
+    if (!confirm("确定删除本公告吗")) {
+        return;
+    }
+
+    $.ajax({
+        url: "/web/community/news/",
+        type: "put",
+        datatype: "json",
+        data: {
+            newsId: id,
+            userId: userInfo.id
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert("该公告已删除");
+                var index = $(obj).parents("tr").index();
+                $(obj).parents("tr").remove();
+            } else {
+                alert(res.msg);
+            }
+        }
+    })
+
+}
+
 
 function edit() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -195,7 +223,7 @@ function showApply() {
                         "<td>"+dateFormat(val.create)+"</td>\n" +
                         "<td>"+dateFormat(val.modified)+"</td>\n" +
                         "<td>"+val.submitName+"</td>\n" +
-                        "<td><a class='btn' onclick='agree("+val.id+", this)'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+")'>拒绝</a></td>\n" +
+                        "<td><a class='btn' onclick='agree("+val.id+", this)'>同意</a> <a class='btn btn-danger' onclick='disagree("+val.id+", this)'>拒绝</a></td>\n" +
                         "</tr>";
                     $("#applyTable").append(str)
                 })
@@ -239,7 +267,7 @@ function agree(id, obj) {
 function disagree(id, obj) {
     var reason = prompt("请输入拒绝原因");
 
-    if (reason == null) return;
+    if (reason == null || reason.length === 0) return;
 
     if (!confirm("此操作无法撤回，确认拒绝吗？")) {
         return;
@@ -368,6 +396,34 @@ function quit() {
 
         }
     })
+}
+
+function logoutCommunity() {
+    if (!confirm("注销社团操作无法撤回，确定要继续吗？")) {
+        return;
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    var communityId = urlParams.get('id');
+
+    $.ajax({
+        url:"web/community/community",
+        datatype: "json",
+        type: "put",
+        data:{
+            communityId: communityId,
+            userId: userInfo.id
+        },
+        success: function (res) {
+            if (res.code === 0) {
+                alert("此社团已注销");
+                location.href = "my_community.html"
+            } else {
+                alert(res.msg);
+            }
+        }
+
+    })
+
 }
 
 showUserInfo();

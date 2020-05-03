@@ -24,7 +24,6 @@ public class UserController {
                                String email,
                                String nickname) {
 
-        log.info(userId.toString());
         User user = new User();
         user.setId(userId);
         user.setPhone(phone);

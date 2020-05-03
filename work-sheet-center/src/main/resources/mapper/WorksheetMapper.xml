@@ -214,6 +214,32 @@
         AND audit_user_id = #{auditUserId,jdbcType=BIGINT}
       </if>
     </where>
+    order by gmt_modified DESC
+  </select>
+
+  <select id="communitySheetCount" resultType="integer" parameterType="com.cms.common.query.WorksheetQuery">
+    select count(*)
+    from tb_worksheet w
+    left join tb_user u1 on w.submit_user_id=u1.id
+    left join  tb_user u2 on w.audit_user_id=u2.id
+    <where>
+      <if test="name != null">
+        AND `name` = #{name}
+      </if>
+      <if test="catalog != null">
+        AND `catalog` = #{catalog}
+      </if>
+      <if test="state != null">
+        AND state = #{state}
+      </if>
+      <if test="submitUserId != null">
+        AND submit_user_id = #{submitUserId,jdbcType=BIGINT}
+      </if>
+      <if test="auditUserId != null">
+        AND audit_user_id = #{auditUserId,jdbcType=BIGINT}
+      </if>
+    </where>
+    order by w.gmt_modified DESC
   </select>
 
   <select id="union" resultMap="CommunityApplyMap" resultType="com.cms.common.vo.worksheet.WorksheetInfoVo" parameterType="com.cms.common.query.WorksheetQuery">

@@ -41,4 +41,14 @@ public class MessageServiceImpl implements MessageService {
     public void readAll(Long id) {
         messageDao.readAll(id);
     }
+
+    @Override
+    public void delete(String messageId) {
+        messageDao.delete(messageId);
+    }
+
+    @Override
+    public List<Message> findMessageByRecIdPage(Long id, Integer page, Integer pageSize) {
+        return null;
+    }
 }

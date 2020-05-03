@@ -2,6 +2,7 @@ package com.cms.workSheet.service;
 
 import com.cms.common.entity.Worksheet;
 import com.cms.common.query.WorksheetQuery;
+import com.cms.common.util.PageBean;
 import com.cms.common.vo.worksheet.WorksheetInfoVo;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface WorksheetService {
 
     int updateWorksheetState(Integer id, Integer state, String remark, Long auditId);
 
+    List<Worksheet> queryPage(WorksheetQuery worksheetQuery, int currentPage, int pageSize);
 
+    PageBean<WorksheetInfoVo> communityApplyPage(WorksheetQuery worksheetQuery, int currentPage, int pageSize);
 }

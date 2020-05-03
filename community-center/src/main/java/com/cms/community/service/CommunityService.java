@@ -2,6 +2,7 @@ package com.cms.community.service;
 
 import com.cms.common.entity.Community;
 import com.cms.common.query.CommunityQuery;
+import com.cms.common.util.PageBean;
 import com.cms.common.vo.community.CommunityDetailsVo;
 import com.cms.common.vo.community.CommunityMemberInfoVo;
 import com.cms.common.vo.community.CommunitySquareVo;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Creams
  */
 public interface CommunityService {
-    List<CommunitySquareVo> getSquareList(int currentPage, int pageSize);
+    PageBean<CommunitySquareVo> getSquareList(int currentPage, int pageSize);
 
     CommunityDetailsVo searchDetailsInfo(int communityId);
 
@@ -38,5 +39,13 @@ public interface CommunityService {
     int deleteMember(Integer communityId, Long userId);
 
     Long candidate(Integer communityId, Long userId);
+
+    List<Long> getManagerId(Integer communityId);
+
+    List<Long> getAllMemberId(Integer communityId);
+
+    int deleteByPrimaryKey(Integer communityId);
+
+    int memberCount(Integer communityId);
 
 }
