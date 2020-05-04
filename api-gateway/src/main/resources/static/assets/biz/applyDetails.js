@@ -1,43 +1,69 @@
-function showUserInfo() {
-    userInfo = getUser();
-    $("#username").text(userInfo.realName);
+function showDetails(obj) {
+    obj = JSON.parse(JSON.stringify(obj));
+    layer.open({
+        type: 0,
+        title: '申请详情',
+        content: detailTable(obj),
+        resize: true,
+        scrollbar: true,
+        area: ['1145px', '720px'],
+        maxmin: true,
+        moveOut: true
+    });
 }
 
-
-function showContent() {
-    const urlParams = new URLSearchParams(window.location.search);
-    var contentB64 = urlParams.get('content');
-    if (contentB64 === null) {
-        location.href = "/error.html"
-    }
-    try {
-        content = JSON.parse(b64Decode(contentB64));
-    } catch(exception) {
-        location.href = "/error.html"
+function detailTable(obj) {
+    if (obj.auditName == null) {
+        obj.auditName = ""
     }
 
+    str = "<div class='widget-content'><br>\n" +
+        "<form id='community-profile' class='form-horizontal'>\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_title'>申请主题:</label>\n" +
+        "<div class='controls'>\n" +
+        "<input type='text' class='span8 disabled' value='"+obj.title+"' id='sheet_title' disabled=''>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_create'>申请时间:</label>\n" +
+        "<div class='controls' >\n" +
+        "<input class='span8' id='sheet_create' value='"+dateFormat(obj.create)+"' disabled=''/>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_modified' disabled=''>更新时间:</label>\n" +
+        "<div class='controls' >\n" +
+        "<input class='span8' id='sheet_modified' value='"+dateFormat(obj.modified)+"' disabled=''/>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_submit' disabled=''>申请人姓名:</label>\n" +
+        "<div class='controls' >\n" +
+        "<input class='span8' id='sheet_submit' value='"+obj.submitName+"' disabled=''/>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_audit' disabled=''>审核人姓名:</label>\n" +
+        "<div class='controls' >\n" +
+        "<input class='span8' id='sheet_audit' value='"+obj.auditName+"' disabled=''/>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_content'>申请单内容:</label>\n" +
+        "<div class='controls'>\n" +
+        "<textarea style='margin: 0px; width: 760px; height: 346px;resize:none;' id='sheet_content' disabled=''>"+obj.content+"</textarea>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "<div class='control-group'>\n" +
+        "<label class='control-label' for='sheet_remark'>备注:</label>\n" +
+        "<div class='controls'>\n" +
+        "<textarea style='margin: 0px; width: 760px; height: 346px;resize:none;' id='sheet_remark' disabled=''>"+obj.remark+"</textarea>\n" +
+        "</div> <!-- /controls -->\n" +
+        "</div> <!-- /control-group -->\n" +
+        "</form>\n" +
+        "</div>";
 
-    if (content == null) location.href = "/error.html";
-
-    $("#sheet_title").val(content.title);
-    $("#sheet_create").val(dateFormat(content.create));
-    $("#sheet_modified").val(dateFormat(content.modified));
-    $("#sheet_content").text(content.content);
-    $("#sheet_submit").val(content.submitName);
-
-    if (content.auditName != null) {
-        $("#sheet_audit").val(content.auditName);
-    }
-
-    if (content.remark != null) {
-        $("#sheet_remark").text(content.remark);
-    }
+    return str;
 }
 
-function b64Decode(str) {
-    return decodeURIComponent(atob(str));
-}
-
-
-showUserInfo();
-showContent();

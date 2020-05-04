@@ -58,10 +58,10 @@ function showWindow() {
         success: function (res) {
             if (res.code === 0) {
                 $.each(res.data, function (idx, val) {
-                    detailsJSON = b64Encode(JSON.stringify(val));
+                    jsonString = JSON.stringify(val).replace("'", "`");
                     str = "<tr>\n" +
                         "<td>" +
-                        "<h3><a href='newsDetails.html?content="+detailsJSON+"'>"+val.title+"</a></h3>" +
+                        "<h3><a onclick='showNewsDetails("+jsonString+")'>"+val.title+"</a></h3>" +
                         "<h4>发表时间： "+dateFormat(val.gmtCreate)+" 最后编辑时间： "+dateFormat(val.gmtModified)+"</h4>\n" +
                         "<h4>作者："+val.author+"</h4>\n" +
                         "</td>" +

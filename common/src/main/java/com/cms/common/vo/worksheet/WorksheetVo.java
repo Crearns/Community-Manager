@@ -49,6 +49,9 @@ public class WorksheetVo {
         worksheetVo.setAuditName(worksheetInfoVo.getAuditRealName());
         worksheetVo.setState(SheetState.valueOf(worksheetInfoVo.getState()).getDesc());
         worksheetVo.setTitle(WorksheetUtil.WorksheetNameGenerator(worksheetInfoVo));
+        if (worksheetInfoVo.getState() != 0) {
+            worksheetVo.setRemark(worksheetInfoVo.getRemark());
+        }
         worksheetVo.setRemark(worksheetInfoVo.getRemark());
         worksheetVo.setCatalog(worksheetInfoVo.getCatalog());
         return worksheetVo;

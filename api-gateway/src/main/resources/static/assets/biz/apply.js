@@ -24,12 +24,12 @@ function apply() {
             var sum = 0;
             if (res.code === 0) {
                 $.each(res.data, function (idx, val) {
+                    jsonString = JSON.stringify(val).replace("'", "`");
                     sum++;
-                    detailsJSON = b64Encode(JSON.stringify(val));
                     if (val.state === "申请失败") style = "color: red";
                     else style = "color: green";
                     str = "<tr>\n" +
-                        "<td><a href='applyDetails.html?content="+detailsJSON+"'>"+sum + "." + val.title+"</a></td>\n" +
+                        "<td><a onclick='showDetails("+jsonString+")'>"+sum + "." + val.title+"</a></td>\n" +
                         "<td>"+dateFormat(val.create)+"</td>\n" +
                         "<td>"+dateFormat(val.modified)+"</td>\n" +
                         "<td style='"+style+"'>"+val.state+"</td>\n" +
@@ -55,6 +55,10 @@ function apply() {
         }
     })
 }
+
+
+
+
 
 function showPageInfo(page, currentPage) {
     pageInt = parseInt(page);
@@ -82,9 +86,6 @@ function showPageInfo(page, currentPage) {
     $("#page").append("<a href='apply.html?page="+pageInt+"'>尾页</a>");
 }
 
-function b64Encode(str) {
-    return btoa(encodeURIComponent(str));
-}
 
 showUserInfo();
 apply();
