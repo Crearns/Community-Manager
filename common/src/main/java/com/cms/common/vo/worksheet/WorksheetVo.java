@@ -52,7 +52,6 @@ public class WorksheetVo {
         if (worksheetInfoVo.getState() != 0) {
             worksheetVo.setRemark(worksheetInfoVo.getRemark());
         }
-        worksheetVo.setRemark(worksheetInfoVo.getRemark());
         worksheetVo.setCatalog(worksheetInfoVo.getCatalog());
         return worksheetVo;
     }

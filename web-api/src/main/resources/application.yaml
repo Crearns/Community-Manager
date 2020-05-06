@@ -11,7 +11,9 @@ spring:
   application:
     name: web-api
 
-
+feign:
+  hystrix:
+    enabled: true
 
 eureka:
   client:

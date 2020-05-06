@@ -33,6 +33,8 @@ function showSquareList() {
                     $("#squareList").append(str);
                 });
                 showPageInfo(res.msg, page);
+            } else {
+                alert(res.msg)
             }
         },
         error: function (err) {

@@ -148,8 +148,7 @@ function showWindow() {
         success: function (res) {
             if (res.code === 0) {
                 $.each(res.data, function (idx, val) {
-                    jsonString = JSON.stringify(val).replace("'", "`")
-                        .replace("\"", "&quot;");
+                    jsonString = JSON.stringify(val).replace("'", "`");
                     str = "<tr>\n" +
                         "<td>\n" +
                         "<h3><a onclick='showNewsDetails("+jsonString+")'>"+val.title+"</a></h3>\n" +
@@ -218,9 +217,9 @@ function showApply() {
         success: function (res) {
             if (res.code === 0) {
                 $.each(res.data,  function (idx, val) {
-                    contentJson = b64Encode(JSON.stringify(val));
+                    jsonString = JSON.stringify(val).replace("'", "`");
                     str = "<tr>\n" +
-                        "<td><a href='applyDetails.html?content="+contentJson+"'>"+val.title+"</a></td>\n" +
+                        "<td><a onclick='showDetails("+jsonString+")'>"+val.title+"</a></td>\n" +
                         "<td>"+dateFormat(val.create)+"</td>\n" +
                         "<td>"+dateFormat(val.modified)+"</td>\n" +
                         "<td>"+val.submitName+"</td>\n" +

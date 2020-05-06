@@ -3,7 +3,7 @@ function showNewsDetails(obj) {
     layer.open({
         type: 0,
         title: '公告详情',
-        content: detailTable(obj),
+        content: newsDetailTable(obj),
         resize: true,
         scrollbar: true,
         area: ['1145px', '720px'],
@@ -12,7 +12,7 @@ function showNewsDetails(obj) {
     });
 }
 
-function detailTable(obj) {
+function newsDetailTable(obj) {
     str = "<div class='widget-content'><br>\n" +
         "<form id='community-profile' class='form-horizontal'>\n" +
         "<div class='control-group'>\n" +
